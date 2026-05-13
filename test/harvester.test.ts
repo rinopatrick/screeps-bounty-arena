@@ -17,7 +17,7 @@ function creep(name: string, sourceId?: string): Creep {
     transfer: () => 0,
     moveTo: () => 0,
     say: () => 0,
-  } as Creep;
+  } as unknown as Creep;
 }
 
 function setGame(sources: Source[], creeps: Creep[]): void {

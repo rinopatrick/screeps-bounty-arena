@@ -39,22 +39,27 @@ declare global {
   }
 
   interface Source extends RoomObject {}
+  interface StructureController extends RoomObject {}
 
   interface Store {
     getFreeCapacity(resource?: ResourceConstant): number;
+    getUsedCapacity(resource?: ResourceConstant): number;
   }
 
   interface Creep extends RoomObject {
     name: string;
     memory: CreepMemory;
+    room: Room;
     store: Store;
     harvest(source: Source): 0 | -9;
     transfer(target: StructureSpawn, resource: ResourceConstant): 0 | -9;
+    upgradeController(target: StructureController): 0 | -9;
     moveTo(target: RoomObject, opts?: { visualizePathStyle?: { stroke?: string } }): number;
     say(message: string): number;
   }
 
   interface Room {
+    controller?: StructureController;
     energyAvailable?: number;
     energyCapacityAvailable?: number;
     find(type: typeof FIND_SOURCES): Source[];
