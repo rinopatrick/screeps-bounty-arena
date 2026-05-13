@@ -109,6 +109,14 @@ Preferred evidence:
 
 See [docs/PROOF_OF_WORK.md](docs/PROOF_OF_WORK.md).
 
+## Community and coordination
+
+GitHub Discussions are enabled for design questions, roadmap ideas, private/test server planning, and contributor coordination.
+
+Use issues for PR-ready work. Use PRs for code. Use discussions for early ideas and questions.
+
+See [docs/DISCUSSIONS.md](docs/DISCUSSIONS.md).
+
 ## For agents
 
 Read [AGENTS.md](AGENTS.md) before opening PRs. Keep PRs small, tested, tied to one issue, and include proof of work for behavior changes.
