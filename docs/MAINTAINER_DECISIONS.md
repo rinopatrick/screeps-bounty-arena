@@ -1,0 +1,141 @@
+# Maintainer Decisions
+
+This log records notable maintainer decisions so contributors and agents can understand why PRs were merged, closed, or superseded.
+
+The goal is transparency, not bureaucracy.
+
+## Principles
+
+- Explain merge/close decisions in the PR thread.
+- Prefer one clean implementation over duplicate overlapping PRs.
+- Keep challenge points separate from money.
+- Do not accept external archives as code submissions.
+- Do not run or deploy unreviewed PR code to a real Screeps account.
+- Merge small, verifiable changes before larger gameplay systems.
+
+## Decision log
+
+### 2026-05-14 — Added maintainer comments to prior PR decisions
+
+Backfilled public comments on merged/closed PRs explaining why each action was taken and what verification was run.
+
+Affected PRs:
+
+- #36 merged: energy-aware worker body builder
+- #6 closed: duplicate/superseded adaptive body generation
+- #30 merged: markdown simulation report
+- #32 merged: CI simulation smoke tests
+- #10 merged: source assignment
+- #27 closed: superseded by combined upgrader implementation
+- #14 closed: superseded by combined upgrader implementation
+- #31 closed: superseded by cleaned maintainer builder implementation
+
+### 2026-05-14 — Selected #36 over #6 for worker body generation
+
+Both PRs addressed adaptive worker bodies. #36 was selected because it was focused, passed checks, and integrated cleanly with the spawn planner.
+
+#6 was closed as superseded to avoid duplicate implementations.
+
+Verification used:
+
+```bash
+npm run check
+npm test
+node scripts/simulate.mjs --ticks 1000 --json
+```
+
+### 2026-05-14 — Merged #30 markdown simulation reports
+
+Merged because it improves proof artifacts for future PRs without changing gameplay logic.
+
+Verification used:
+
+```bash
+npm run check
+npm test
+node scripts/simulate.mjs --ticks 1000 --markdown
+```
+
+### 2026-05-14 — Merged #32 CI simulation smoke tests
+
+Merged after manual review because it changed GitHub Actions workflow files.
+
+Reasoning:
+
+- adds typecheck, unit tests, 1k simulation, and 10k simulation to CI
+- uses normal GitHub Actions and npm commands
+- `package-lock.json` exists, so `npm ci` is appropriate
+
+Verification used:
+
+```bash
+npm ci --dry-run
+npm run check
+npm test
+npm run --silent simulate:1k
+npm run --silent simulate:10k
+```
+
+### 2026-05-14 — Merged #10 source assignment
+
+Merged because it was a focused improvement with deterministic tests for source assignment behavior.
+
+Verification used:
+
+```bash
+npm run check
+npm test
+node scripts/simulate.mjs --ticks 1000 --json
+```
+
+### 2026-05-14 — Combined #27 and #14 into a maintainer upgrader commit
+
+Both PRs implemented upgrader behavior and both had useful pieces, but they conflicted with newer `main` after other merges.
+
+Maintainer action:
+
+- created a clean combined upgrader implementation directly on `main`
+- added upgrader dispatch
+- added upgrader spawn planning
+- added Screeps controller/store typings
+- added tests
+- closed both PRs as superseded with comments
+
+Verification used:
+
+```bash
+npm run check
+npm test
+node scripts/simulate.mjs --ticks 1000 --json
+```
+
+### 2026-05-14 — Replaced #31 with a cleaned maintainer builder commit
+
+#31 was not merged as-is because it included generated `analysis.json` metadata and builder behavior needed correction.
+
+Maintainer action:
+
+- added a clean builder role
+- added builder dispatch
+- added construction-site spawn planning
+- added Screeps construction-site typings
+- added tests
+- closed #31 as superseded with an explanatory comment
+
+Verification used:
+
+```bash
+npm run check
+npm test
+node scripts/simulate.mjs --ticks 1000 --json
+```
+
+## Future decisions to record
+
+Record decisions for:
+
+- choosing between duplicate PRs
+- closing PRs as unsafe or out of scope
+- accepting workflow changes
+- connecting any private/test Screeps deployment path
+- enabling community spaces such as GitHub Discussions or Discord

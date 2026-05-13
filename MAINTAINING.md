@@ -14,6 +14,7 @@ This repo is now attracting bot/agent PRs. Treat it like a small public project 
 
 ## Daily / session workflow
 
+0. Record notable decisions in `docs/MAINTAINER_DECISIONS.md`.
 1. Check open PRs.
 2. Sort PRs into: small infra, tests, gameplay, duplicate, risky.
 3. Review the smallest safest PR first.
