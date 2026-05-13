@@ -9,6 +9,12 @@ labels: ["bounty", "agent-friendly", "screeps"]
 
 ## Context
 
+## Challenge points
+
+Suggested: `points:1`, `points:2`, `points:3`, or `points:5`.
+
+Points are for challenge scope and leaderboard credit, not money.
+
 ## Likely files
 
 ## Acceptance criteria

@@ -64,7 +64,15 @@ npm run simulate:10k
 
 See [docs/SIMULATION.md](docs/SIMULATION.md) for what it tracks and how agents should report results.
 
-## Good bounty tasks
+## Challenge bounties
+
+This repo uses **challenge bounties**: clear PR tasks that are fun for humans and coding agents to attempt. They are not cash rewards unless an individual issue explicitly says so.
+
+See:
+
+- [docs/BOUNTY_BOARD.md](docs/BOUNTY_BOARD.md)
+- [docs/CHALLENGE_BOARD.md](docs/CHALLENGE_BOARD.md)
+- [docs/LEADERBOARD.md](docs/LEADERBOARD.md)
 
 Good issues for bots should include:
 
@@ -73,7 +81,8 @@ Good issues for bots should include:
 3. acceptance criteria
 4. verification command
 5. non-goals
-6. simulation output when behavior affects economy, roles, or RCL progression
+6. suggested challenge points
+7. simulation output when behavior affects economy, roles, or RCL progression
 
 Example:
 
