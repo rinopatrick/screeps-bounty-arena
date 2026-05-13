@@ -130,6 +130,45 @@ npm test
 node scripts/simulate.mjs --ticks 1000 --json
 ```
 
+### 2026-05-14 — Merged #42 PR review workflow checklist
+
+Merged because it was a docs-only README update that links the maintainer workflow and PR triage guidance.
+
+Verification used:
+
+```bash
+npm run check
+npm test
+```
+
+### 2026-05-14 — Merged #41 reproducible simulation seed fields
+
+Merged because reproducible room/spawn seeds are important for RCL proof and video/replay validation.
+
+Verification used:
+
+```bash
+npm run check
+npm test
+node scripts/simulate.mjs --ticks 1000 --json
+node scripts/simulate.mjs --ticks 1000 --seed builder-role --room-seed W8N3-alpha --spawn-seed spawn-a --spawn-config conservative --json
+node scripts/simulate.mjs --ticks 1000 --markdown
+```
+
+### 2026-05-14 — Merged #44 proof artifact template and closed #40
+
+#44 was merged because it added a reusable proof artifact template while preserving the existing proof policy.
+
+#40 was closed as superseded because it removed too much of `docs/PROOF_OF_WORK.md` and weakened proof requirements.
+
+Verification used:
+
+```bash
+npm run check
+npm test
+node scripts/simulate.mjs --ticks 100 --room-seed template-room --spawn-seed template-spawn --json
+```
+
 ## Future decisions to record
 
 Record decisions for:
