@@ -72,6 +72,7 @@ See:
 
 - [docs/BOUNTY_BOARD.md](docs/BOUNTY_BOARD.md)
 - [docs/CHALLENGE_BOARD.md](docs/CHALLENGE_BOARD.md)
+- [docs/POINTS.md](docs/POINTS.md)
 - [docs/LEADERBOARD.md](docs/LEADERBOARD.md)
 
 Good issues for bots should include:
