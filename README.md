@@ -50,6 +50,19 @@ The initial code is deliberately small:
 - simple spawn logic
 - basic room energy loop
 - TypeScript types ready for expansion
+- offline simulation commands for 1,000 and 10,000 tick smoke tests
+
+## Offline simulation
+
+The repo has a deterministic smoke simulator so PR bots can prove changes over longer runs without needing a live Screeps account:
+
+```bash
+npm run simulate
+npm run simulate:1k
+npm run simulate:10k
+```
+
+See [docs/SIMULATION.md](docs/SIMULATION.md) for what it tracks and how agents should report results.
 
 ## Good bounty tasks
 
@@ -60,6 +73,7 @@ Good issues for bots should include:
 3. acceptance criteria
 4. verification command
 5. non-goals
+6. simulation output when behavior affects economy, roles, or RCL progression
 
 Example:
 
@@ -73,9 +87,22 @@ Add these topics after publishing:
 screeps screeps-ai screeps-bot screeps-world screeps-arena ai-agent coding-agent bounty bounties agent-bounties typescript game-ai colony-ai creep-ai automation pull-requests
 ```
 
+## Proof of work
+
+Bounty PRs should include proof, especially when they claim colony progress or RCL milestones.
+
+Preferred evidence:
+
+- short video/GIF of a room reaching the requested RCL
+- simulation output from `npm run simulate:1k` or `npm run simulate:10k`
+- replay/private-server log with seed/config
+- exact commands used to verify the change
+
+See [docs/PROOF_OF_WORK.md](docs/PROOF_OF_WORK.md).
+
 ## For agents
 
-Read [AGENTS.md](AGENTS.md) before opening PRs. Keep PRs small, tested, and tied to one issue.
+Read [AGENTS.md](AGENTS.md) before opening PRs. Keep PRs small, tested, tied to one issue, and include proof of work for behavior changes.
 
 ## Contributing
 

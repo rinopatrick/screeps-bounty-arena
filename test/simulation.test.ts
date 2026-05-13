@@ -1,0 +1,23 @@
+import { execFileSync } from 'node:child_process';
+import { describe, expect, it } from 'vitest';
+
+describe('offline simulation', () => {
+  it('runs a deterministic 1000 tick smoke simulation', () => {
+    const output = execFileSync('node', ['scripts/simulate.mjs', '--ticks', '1000', '--seed', 'test', '--json'], {
+      encoding: 'utf8',
+    });
+    const result = JSON.parse(output) as {
+      ok: boolean;
+      ticks: number;
+      final: { rcl: number; creeps: number; energyCapacity: number };
+      milestones: Array<{ tick: number; rcl: number }>;
+    };
+
+    expect(result.ok).toBe(true);
+    expect(result.ticks).toBe(1000);
+    expect(result.final.rcl).toBeGreaterThanOrEqual(2);
+    expect(result.final.creeps).toBeGreaterThan(1);
+    expect(result.final.energyCapacity).toBeGreaterThanOrEqual(300);
+    expect(result.milestones.length).toBeGreaterThan(0);
+  });
+});

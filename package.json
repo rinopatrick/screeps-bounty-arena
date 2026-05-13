@@ -24,14 +24,21 @@
     "game-ai",
     "colony-ai",
     "creep-ai",
-    "pull-requests"
+    "pull-requests",
+    "simulation",
+    "rcl",
+    "colony-simulation",
+    "agent-prs"
   ],
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "check": "npm run build",
     "lint": "eslint .",
     "format": "prettier --write .",
-    "test": "vitest run"
+    "test": "vitest run",
+    "simulate": "node scripts/simulate.mjs",
+    "simulate:1k": "node scripts/simulate.mjs --ticks 1000 --json",
+    "simulate:10k": "node scripts/simulate.mjs --ticks 10000 --json"
   },
   "devDependencies": {
     "@types/node": "latest",
