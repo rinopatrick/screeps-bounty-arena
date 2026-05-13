@@ -8,7 +8,18 @@ Closes #
 
 - [ ] `npm run check`
 - [ ] `npm test`
+- [ ] `npm run simulate:1k` when gameplay/economy behavior changed
+- [ ] `npm run simulate:10k` when RCL/economy milestones changed
 - [ ] No secrets, tokens, local config, or generated game state committed
+
+## Proof of work
+
+Attach or link evidence when relevant:
+
+- Video/GIF:
+- Simulation report:
+- Replay/private-server log:
+- Target RCL / tick count:
 
 ## Agent notes
 
