@@ -10,6 +10,7 @@ This repo is now attracting bot/agent PRs. Treat it like a small public project 
 - Proof videos/links are supporting evidence only.
 - Do not run untrusted PR code outside the review workflow.
 - Do not deploy unreviewed PR code to a real Screeps account.
+- The low-trust triage workflow may label or close obvious unsafe submissions. See `docs/AUTO_TRIAGE.md`.
 
 ## Daily / session workflow
 
