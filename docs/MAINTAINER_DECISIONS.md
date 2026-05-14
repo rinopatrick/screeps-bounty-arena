@@ -496,3 +496,18 @@ Actions:
 
 - merged #90 (`52e5c99`)
 - awarded 3 points to `nicovaleops`
+
+## 2026-05-14 — Role edge-case tests PR #91
+
+Decision: merge #91 as the first clean implementation for #68.
+
+Why:
+
+- focused unit-test PR for missing target edge cases in harvester, builder, and upgrader roles
+- no secret, workflow, binary, or external-proof risk
+- passed current-main dry merge, local check/test/1k/10k/seeded gates, and post-merge verification
+
+Actions:
+
+- merged #91 (`a912392`)
+- awarded 3 points to `akamabu`

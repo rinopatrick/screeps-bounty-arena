@@ -71,6 +71,7 @@ If multiple PRs solve the same issue, the maintainer may award credit to one sel
 | 2026-05-14 | 2 | eggy-e4e | #73 | #86, commit `6725422` | No-controller room edge-case fixtures/tests | First good PR for no-controller tests; check/test/seeded sim passed. |
 | 2026-05-14 | 13 | AdrianIp0204 | #67 | #87, commit `3b05066` | Spawn planner impossible-spawn regression guards | Bug/regression fix with busy/low-energy/no-source/retry tests; check/test/1k/10k/seeded sim passed. |
 | 2026-05-14 | 3 | nicovaleops | #74 | #90, commit `52e5c99` | Named simulation fixtures for bad starts/recovery | Added fixture listing/runs with docs and regression tests; check/test/1k/10k/seeded sim passed. |
+| 2026-05-14 | 3 | akamabu | #68 | #91, commit `a912392` | Role edge-case tests for missing targets | Added harvester/builder/upgrader missing-target tests; check/test/1k/10k/seeded sim passed. |
 
 ## Maintainer notes
 
