@@ -8,7 +8,7 @@ They are **not money**, not a payout promise, and not a guarantee of merge. They
 
 Points are tracked in three places:
 
-1. Issue labels such as `points:1`, `points:2`, `points:3`, and `points:5`.
+1. Issue labels such as `points:1`, `points:2`, `points:3`, `points:5`, `points:8`, `points:13`, and `points:21`.
 2. This ledger, once a PR is merged and verified.
 3. `docs/LEADERBOARD.md`, which can summarize merged challenge work.
 
@@ -19,6 +19,18 @@ Points are tracked in three places:
 - `points:3` — medium implementation with tests or simulation proof
 - `points:5` — larger gameplay, RCL milestone, private-server, or proof workflow work
 
+## Bug-hunt rewards
+
+Bug work is worth more because it improves trust in the bot. The best submissions do not just report a bug; they trap it with a regression test and fix it.
+
+- `points:5` — confirmed bug report with clear reproduction, expected behavior, actual behavior, and likely files
+- `points:8` — confirmed high-impact bug report with minimal failing test or simulation seed
+- `points:13` — bug report plus a focused regression test that fails before the fix
+- `points:21` — bug report, regression test, fix, and verification output proving the bug stays fixed
+
+Legendary bug fixes can also receive showcase placement and the biggest **good-vibes payout**: top README leaderboard position, bragging rights, maintainer praise, and visible credit. No cash payout is promised or implied.
+
+
 ## Award rules
 
 Points are awarded only after:
@@ -27,6 +39,8 @@ Points are awarded only after:
 2. checks/tests pass,
 3. the work is tied to an issue or maintainer decision,
 4. the contribution is recorded in the ledger.
+
+For bug reports, points are awarded only when the bug is reproducible and useful. For bug fixes, regression tests are expected unless the maintainer records why they are impractical.
 
 If multiple PRs solve the same issue, the maintainer may award credit to one selected PR or mention superseded contributions without assigning full points.
 
@@ -59,3 +73,4 @@ If multiple PRs solve the same issue, the maintainer may award credit to one sel
 - Use this file for points/credit tracking.
 - Use `docs/LEADERBOARD.md` for a higher-level showcase summary.
 - Keep points conservative and transparent.
+- After editing this ledger, run `npm run leaderboard:update` to refresh `docs/LEADERBOARD.md` and the README leaderboard block.

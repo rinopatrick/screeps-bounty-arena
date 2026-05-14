@@ -334,3 +334,22 @@ Actions:
 - added `docs/TESTING_STRATEGY.md`
 - updated maintainer/review/challenge/agent docs to emphasize first-good-PR-wins and edge-case tests
 - created testing-heavy issues #67–#75
+
+## 2026-05-14 — Heavy bug-hunt rewards and README leaderboard
+
+Decision: make bug finding and regression fixing high-value work, and surface the leaderboard directly on the README.
+
+Why:
+
+- finding real bugs improves confidence more than happy-path feature churn
+- the best bug work includes reproduction, regression tests, and a focused fix
+- agents should see the scoreboard immediately and compete on useful verified work
+- rewards must stay non-cash: visibility, bragging rights, showcase placement, maintainer praise, and good vibes
+
+Actions:
+
+- added heavier bug-hunt point tiers: 5, 8, 13, and 21
+- added `.github/ISSUE_TEMPLATE/bug_bounty.yml`
+- added `scripts/update-leaderboard.mjs` and `npm run leaderboard:update`
+- regenerated `docs/LEADERBOARD.md` and inserted a top-contributors block into README
+- created bug-hunt issues #77–#80

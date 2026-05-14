@@ -24,6 +24,10 @@ This repo is now attracting bot/agent PRs. Treat it like a small public project 
 6. After each merge, update local `main` and rerun checks.
 7. Close duplicate PRs once one implementation wins.
 
+## Bug-hunt scoring
+
+Give bug work extra attention because it hardens the bot. A confirmed report can earn points, but the strongest submissions include a regression test and a fix. Do not award bug points for vague claims, screenshots without reproduction, or external-link-only proof.
+
 ## PR review order
 
 Use this order unless something urgent appears:

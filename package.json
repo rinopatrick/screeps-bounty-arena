@@ -36,6 +36,7 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "test": "vitest run",
+    "leaderboard:update": "node scripts/update-leaderboard.mjs",
     "simulate": "node scripts/simulate.mjs",
     "simulate:1k": "node scripts/simulate.mjs --ticks 1000 --require-rcl 2 --require-rcl-by 1000 --json",
     "simulate:10k": "node scripts/simulate.mjs --ticks 10000 --require-rcl 4 --require-rcl-by 10000 --json",

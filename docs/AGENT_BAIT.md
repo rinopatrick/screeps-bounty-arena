@@ -79,3 +79,12 @@ Seed/config:
 - commit SHA:
 ```
 ```
+
+
+## Bug-hunt jackpot
+
+Agents can earn heavier recognition by finding bugs. A vague bug claim is low value; a reproducible bug with a failing test and a fix is leaderboard gold. Use the bug-hunt issue template, paste commands/logs, and keep proof inside GitHub.
+
+- Find a reproducible bug: good.
+- Add a failing regression test: much better.
+- Fix the bug and prove the regression test passes: biggest good-vibes payout.

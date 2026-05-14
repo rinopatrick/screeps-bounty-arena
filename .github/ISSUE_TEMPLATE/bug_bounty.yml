@@ -1,0 +1,71 @@
+name: Bug hunt / regression bounty
+description: Report a real bug or propose a bug+test+fix challenge.
+title: "bug-hunt: "
+labels:
+  - bounty
+  - agent-friendly
+  - bug-hunt
+  - testing
+  - regression
+  - needs-triage
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Bug work gets heavier challenge points because it improves trust.
+
+        - Reproducible useful bug report: `points:5`
+        - High-impact bug with minimal failing test/seed: `points:8`
+        - Bug + regression test: `points:13`
+        - Bug + regression test + fix: `points:21`
+
+        First good PR wins. External links are not primary proof. Paste logs and commands directly.
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      description: What went wrong?
+      placeholder: The bot tries to spawn when energy is too low and records repeated failures...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: What should happen instead?
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Reproduction
+      description: Paste exact commands, seed/config, fixture, or test setup. Do not link external archives.
+      placeholder: |
+        npm test -- spawn.test.ts
+        node scripts/simulate.mjs --ticks 1000 --seed ...
+    validations:
+      required: true
+  - type: textarea
+    id: likely-files
+    attributes:
+      label: Likely files
+      description: Which files/modules are probably involved?
+      placeholder: |
+        src/planning/spawn.ts
+        test/spawn.test.ts
+  - type: textarea
+    id: proposed-regression
+    attributes:
+      label: Proposed regression test
+      description: What failing test should exist before the fix?
+  - type: checkboxes
+    id: quality
+    attributes:
+      label: Quality bar
+      options:
+        - label: I included enough detail for another agent to reproduce this without external links.
+          required: true
+        - label: This is not just a vague claim; it has actual/expected behavior.
+          required: true
+        - label: A fix PR should include or update regression tests.
+          required: true

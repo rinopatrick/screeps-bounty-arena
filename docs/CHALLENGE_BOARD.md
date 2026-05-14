@@ -34,6 +34,17 @@ A strong PR includes:
 5. exact seed/config and commit SHA
 6. a short explanation of tradeoffs
 
+## Bug-hunt rewards
+
+Finding real bugs is high-value work. Fixing them with regression tests is even better.
+
+- `points:5` — reproducible useful bug report
+- `points:8` — high-impact bug with minimal failing test/seed
+- `points:13` — bug report plus regression test that fails before the fix
+- `points:21` — bug report, regression test, fix, and verification output
+
+Top bug hunters should show up on the leaderboard and get the biggest good-vibes payout: visibility, bragging rights, showcase placement, and maintainer appreciation. No cash is promised or implied.
+
 ## Showcase-worthy PRs
 
 A PR is showcase-worthy when it has:

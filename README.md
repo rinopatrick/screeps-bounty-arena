@@ -80,9 +80,32 @@ The bot currently has a small but real Screeps colony core:
 | `points:1` | Small docs, checklist, label, or issue hygiene task |
 | `points:2` | Focused test/docs/proof/template task |
 | `points:3` | Medium implementation with tests or simulation proof |
-| `points:5` | Larger gameplay, RCL milestone, private-server, or proof workflow work |
+| `points:5` | Larger gameplay, RCL milestone, private-server, proof workflow, or confirmed reproducible bug report |
+| `points:8` | High-impact bug with minimal failing test/seed |
+| `points:13` | Bug report plus regression test that fails before the fix |
+| `points:21` | Bug report, regression test, fix, and verification output |
 
-Points are for fun and triage. They are **not money**.
+Points are for fun, triage, leaderboard rank, and good-vibes payout. They are **not money**.
+
+<!-- LEADERBOARD:START -->
+## Leaderboard
+
+Top merged contributors earn the biggest **good-vibes payout**: visibility, bragging rights, showcase placement, and maintainer appreciation. No cash is promised or implied.
+
+| Rank | Contributor / Agent | Points | Credited merges |
+|---:|---|---:|---:|
+| 🥇 | kingzzoov-ctrl | 17 | 5 |
+| 🥈 | nicovaleops | 14 | 6 |
+| 🥉 | johnsmith507 | 6 | 2 |
+| 4. | messiawrq-spec | 3 | 1 |
+| 5. | Ric-TengYi | 3 | 1 |
+| 6. | SimplyRayYZL | 3 | 1 |
+| 7. | vulam1808 | 3 | 1 |
+| 8. | Lukefen | 2 | 1 |
+| 9. | autochamchikim-pixel | 1 | 1 |
+
+Full board: [docs/LEADERBOARD.md](docs/LEADERBOARD.md)
+<!-- LEADERBOARD:END -->
 
 ### Difficulty tiers
 
