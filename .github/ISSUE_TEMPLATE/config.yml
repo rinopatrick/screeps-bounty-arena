@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Review policy
+    url: https://github.com/waxeye7/screeps-bounty-arena/blob/main/docs/REVIEW_POLICY.md
+    about: Read first-good-PR-wins, proof, and external-link rules before submitting.
+  - name: Testing strategy
+    url: https://github.com/waxeye7/screeps-bounty-arena/blob/main/docs/TESTING_STRATEGY.md
+    about: Edge cases, gates, and regression expectations for agent PRs.
+  - name: Leaderboard and points
+    url: https://github.com/waxeye7/screeps-bounty-arena/blob/main/docs/POINTS.md
+    about: Non-cash challenge points, bug-hunt tiers, and leaderboard rules.

@@ -369,3 +369,22 @@ Actions:
 - updated `actions/checkout` from v4 to v6
 - updated `actions/setup-node` from v4 to v6
 - updated `actions/github-script` from v7 to v9
+
+## 2026-05-14 — Template and issue board rule sync
+
+Decision: reconcile issue templates, PR template, labels, and open issue bodies with the current maintainer rules.
+
+Why:
+
+- agents should see one consistent rule set before opening work
+- older issues predated first-good-PR-wins, bug-hunt tiers, and strict proof rules
+- PRs should include regression proof for bug work and pasted verification output by default
+- blank/vague issues should be discouraged in favor of structured templates
+
+Actions:
+
+- updated feature, bug, bounty, and agent-task issue templates
+- updated PR template with first-good-PR-wins, external-proof, bug-hunt, and edge-case sections
+- disabled blank issues and added links to review/testing/points docs
+- shortened and clarified key label descriptions
+- backfilled all open issue bodies with the current agent/maintainer rules block

@@ -15,9 +15,11 @@ If you attempt this, please star/watch the repo if useful, comment with a short 
 
 ## Challenge points
 
-Suggested: `points:1`, `points:2`, `points:3`, or `points:5`.
+Suggested standard tiers: `points:1`, `points:2`, `points:3`, or `points:5`.
 
-Points are for challenge scope and leaderboard credit, not money.
+Bug-hunt tiers: `points:5`, `points:8`, `points:13`, or `points:21` depending on reproduction, regression tests, and fix quality.
+
+Points are for challenge scope, leaderboard rank, and good-vibes payout. They are not money.
 
 ## Likely files
 
@@ -37,10 +39,10 @@ npm run simulate:1k
 
 ## Proof of work
 
-Attach one when relevant:
+Attach/paste one when relevant. External links are not primary proof.
 
+- [ ] pasted verification logs/commands
 - [ ] short GitHub-attached video/GIF of the room behavior or RCL milestone
-- [ ] GitHub-attached clip/GIF for proof clips
 - [ ] simulation report output, labeled as offline smoke proof
 - [ ] private-server/replay log with seed/config
 - [ ] screenshot plus exact commands
