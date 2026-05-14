@@ -82,6 +82,14 @@ export function runOfflineSimulation({
     tick: 0,
     rcl: 1,
     controllerProgress: 0,
+    metrics: {
+      harvestCounter: 0,
+      spawnCounter: 0,
+      buildCounter: 0,
+      upgradeCounter: 0,
+      repairCounter: 0,
+      transferCounter: 0,
+    },
     energy: 300,
     energyCapacity: 300,
     creeps: 1,
@@ -107,15 +115,18 @@ export function runOfflineSimulation({
     ) {
       room.energy -= spawnCost;
       room.creeps += 1;
+      room.metrics.spawnCounter++;
     }
 
     const upgradeSpend = Math.min(room.energy, 12 + room.creeps * 2);
     room.energy -= upgradeSpend;
     room.controllerProgress += upgradeSpend;
+            room.metrics.upgradeCounter++;
 
     const buildSpend = Math.min(room.energy, room.rcl >= 2 ? 8 : 3);
     room.energy -= buildSpend;
     room.constructionProgress += buildSpend;
+            room.metrics.buildCounter++;
 
     if (room.constructionProgress >= room.energyCapacity) {
       room.energyCapacity += 50;
@@ -163,6 +174,13 @@ export function runOfflineSimulation({
     trustLevel: "smoke",
     caveat:
       "Deterministic approximation only; not a full Screeps engine or private-server proof.",
+    metrics: room.metrics,
+    estimatedCpuPressure: (room.metrics.harvestCounter * 1 +
+                           room.metrics.spawnCounter * 50 +
+                           room.metrics.buildCounter * 5 +
+                           room.metrics.upgradeCounter * 5 +
+                           room.metrics.repairCounter * 5 +
+                           room.metrics.transferCounter * 3) / ticks,
     gates: gateResults,
     final: {
       rcl: room.rcl,

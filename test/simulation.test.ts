@@ -109,4 +109,22 @@ describe("offline simulation", () => {
     ]);
     expect(result.cases.every((entry) => entry.ok)).toBe(true);
   });
+  it("simulation output includes metrics and CPU pressure fields", () => {
+    const output = execFileSync(
+      "node",
+      ["scripts/simulate.mjs", "--ticks", "10", "--seed", "test", "--json"],
+      { encoding: "utf8" },
+    );
+    const result = JSON.parse(output);
+    expect(result).toHaveProperty("metrics");
+    expect(result.metrics).toHaveProperty("harvestCounter");
+    expect(result.metrics).toHaveProperty("spawnCounter");
+    expect(result.metrics).toHaveProperty("buildCounter");
+    expect(result.metrics).toHaveProperty("upgradeCounter");
+    expect(result.metrics).toHaveProperty("repairCounter");
+    expect(result.metrics).toHaveProperty("transferCounter");
+    expect(result).toHaveProperty("estimatedCpuPressure");
+    expect(typeof result.estimatedCpuPressure).toBe("number");
+  });
+
 });
