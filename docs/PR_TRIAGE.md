@@ -61,6 +61,12 @@ Do not merge these casually until the test-server path exists.
 
 > This PR changes more scope than the issue asks for. Please narrow it to the specific behavior, keep unrelated rewrites out, and include tests for the changed logic.
 
+## Testing standard
+
+For behavior changes, reject happy-path-only tests when obvious edge cases exist. Prefer PRs that add reusable fixtures, negative tests, or simulation gates. A smaller tested PR beats a broader untested implementation.
+
+Use `docs/TESTING_STRATEGY.md` as the review baseline.
+
 ## Merge discipline
 
 Never merge several PRs at once. Merge one, update main, run checks, then continue.

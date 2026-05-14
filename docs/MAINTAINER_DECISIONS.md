@@ -317,3 +317,20 @@ Record decisions for:
 - accepting workflow changes
 - connecting any private/test Screeps deployment path
 - enabling community spaces such as GitHub Discussions or Discord
+
+## 2026-05-14 — First good PR wins and testing-heavy board
+
+Decision: make “first good PR wins” an explicit repo rule and stock the board with edge-case/testing issues.
+
+Why:
+
+- issue comments should not reserve work or slow the repo down
+- duplicate PRs should be closed after the first clean, scoped, tested implementation lands
+- the repo should reward edge-case coverage and reusable fixtures, not flashy happy-path claims
+- stronger testing tasks give coding agents clear work while improving maintainer confidence
+
+Actions:
+
+- added `docs/TESTING_STRATEGY.md`
+- updated maintainer/review/challenge/agent docs to emphasize first-good-PR-wins and edge-case tests
+- created testing-heavy issues #67–#75

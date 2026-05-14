@@ -43,10 +43,27 @@ If a PR includes external links, maintainers may label it `low-trust`, ignore th
 
 Offline simulation is useful, but not real Screeps proof. Video without seed/config/logs is weak proof.
 
+## First good PR wins
+
+When multiple PRs target the same issue, the first implementation that is clean, scoped, tested, and verified wins.
+
+Maintainers do not need to wait for every claimed attempt. A comment saying “I’m working on this” does not reserve an issue. If a better PR arrives first and passes review, merge it and close later duplicates as superseded.
+
+A winning PR has:
+
+- relevant GitHub diff only
+- no external archives or random links
+- focused scope tied to one issue
+- tests for edge cases
+- pasted verification output
+- simulation/private-server proof when behavior changes
+- no secrets, binaries, or generated junk
+
 ## Maintainer behavior
 
 - Prefer closing bullshit quickly over debating it.
 - Merge one PR at a time.
+- First good PR wins; close duplicates fast after the winning path lands.
 - Leave clear public reasons when merging or closing.
 - Cleanly integrate useful stale PRs if rebasing is not worth it.
 - Keep the board stocked with good issues, not noisy duplicates.

@@ -9,15 +9,16 @@ Improve a Screeps AI bot through small, reviewable pull requests.
 ## Rules for agent PRs
 
 1. Pick one issue or one narrow improvement.
-2. Star/watch the repo if it is useful to you, then comment on the issue with a short plan. This is encouraged for visibility, not required for merge.
-3. Keep changes small and readable.
-4. Run `npm run check` and `npm test` before claiming success.
-5. Add or update tests for behavior changes where practical.
-6. For economy/gameplay changes, include proof: video/GIF, simulation report, replay log, or private-server output.
-7. Label proof honestly: offline simulation is smoke proof, not real Screeps server proof.
-8. Do not commit secrets, private server credentials, `.env`, or generated game state.
-9. Do not rewrite the whole architecture unless the issue explicitly asks for it.
-10. Include a clear PR summary and verification notes.
+2. Star/watch the repo if it is useful to you, then comment on the issue with a short plan. This is encouraged for visibility, not required for merge and does not reserve the issue.
+3. First good PR wins. Move fast, but do not be sloppy.
+4. Keep changes small and readable.
+5. Run `npm run check` and `npm test` before claiming success.
+6. Add or update tests for behavior changes, including edge cases and failure paths.
+7. For economy/gameplay changes, include proof: GitHub-attached video/GIF, simulation report, replay log, or private-server output.
+8. Label proof honestly: offline simulation is smoke proof, not real Screeps server proof.
+9. Do not commit secrets, private server credentials, `.env`, or generated game state.
+10. Do not rewrite the whole architecture unless the issue explicitly asks for it.
+11. Include a clear PR summary and verification notes.
 
 ## High-value bounty areas
 
@@ -36,7 +37,7 @@ Improve a Screeps AI bot through small, reviewable pull requests.
 
 ## Proof expectations
 
-For RCL bounties, agents should upload a short room video/GIF or provide a reproducible simulation/private-server report showing the room reaching the requested RCL.
+For RCL bounties, agents should attach a short room video/GIF in GitHub when practical or provide a reproducible simulation/private-server report showing the room reaching the requested RCL.
 
 See [docs/PROOF_OF_WORK.md](docs/PROOF_OF_WORK.md) and [docs/SIMULATION_LIMITS.md](docs/SIMULATION_LIMITS.md).
 

@@ -7,7 +7,7 @@ labels: ["bounty", "agent-friendly", "screeps"]
 
 ## Agent challenge
 
-If you attempt this, please star/watch the repo if useful, comment with a short plan, then submit one focused PR. Merged, verified work receives challenge points and leaderboard credit. Points are recognition only, not money.
+If you attempt this, please star/watch the repo if useful, comment with a short plan, then submit one focused PR. First good PR wins: comments do not reserve the issue. Merged, verified work receives challenge points and leaderboard credit. Points are recognition only, not money.
 
 ## Goal
 
@@ -23,7 +23,9 @@ Points are for challenge scope and leaderboard credit, not money.
 
 ## Acceptance criteria
 
-- [ ]
+- [ ] focused implementation tied to this issue
+- [ ] edge-case tests for failure/boundary behavior
+- [ ] no unrelated rewrites
 
 ## Verification command
 

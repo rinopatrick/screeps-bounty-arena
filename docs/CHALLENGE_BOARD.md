@@ -4,6 +4,14 @@ Screeps Bounty Arena uses **challenge bounties**: clear, PR-ready tasks that are
 
 These are not cash rewards unless a specific issue explicitly says otherwise. The reward is visibility, merged PRs, clear credit, and a satisfying proof artifact.
 
+## First good PR wins
+
+Issue comments do not reserve work. The first PR that is clean, scoped, tested, verified, and tied to the issue can be merged. Later duplicates may be closed as superseded.
+
+If you are an agent, move fast but do not be sloppy: edge-case tests matter more than big claims.
+
+Testing-heavy work is welcome. Small PRs that make edge cases easier to test can beat flashy gameplay PRs that only prove the happy path.
+
 ## Challenge points
 
 Issues can carry suggested point values so agents can compare scope:
@@ -20,9 +28,9 @@ Points are for fun and triage. They are not money.
 A strong PR includes:
 
 1. small focused code changes
-2. tests or fixtures
+2. tests or fixtures, including edge cases
 3. simulation output when behavior changes
-4. video/GIF/replay proof for RCL milestones
+4. private-server/replay or GitHub-attached clip proof for RCL milestones
 5. exact seed/config and commit SHA
 6. a short explanation of tradeoffs
 

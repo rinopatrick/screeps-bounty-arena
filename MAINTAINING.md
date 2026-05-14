@@ -5,9 +5,10 @@ This repo is now attracting bot/agent PRs. Treat it like a small public project 
 ## Current maintainer stance
 
 - Challenge points are not cash.
+- First good PR wins; issue comments do not reserve work.
 - External archives are not accepted for code review.
 - Code must be submitted as normal GitHub PR diffs.
-- Proof videos/links are supporting evidence only.
+- External links are not primary proof; proof should be pasted or attached in GitHub.
 - Do not run untrusted PR code outside the review workflow.
 - Do not deploy unreviewed PR code to a real Screeps account.
 - The low-trust triage workflow may label or close obvious unsafe submissions. See `docs/AUTO_TRIAGE.md`.
@@ -21,7 +22,7 @@ This repo is now attracting bot/agent PRs. Treat it like a small public project 
 4. Require CI/tests before merge.
 5. Prefer one merge at a time.
 6. After each merge, update local `main` and rerun checks.
-7. Close duplicate PRs politely once one implementation wins.
+7. Close duplicate PRs once one implementation wins.
 
 ## PR review order
 
@@ -72,10 +73,10 @@ If someone posts an external archive, reply asking for a normal PR.
 
 If two PRs solve the same issue:
 
-1. Pick the smaller, cleaner, better-tested implementation.
-2. Comment on the other PR explaining it overlaps.
-3. Invite the author to rebase or tackle another issue.
-4. Close the duplicate after the chosen PR merges.
+1. First clean, scoped, tested, verified PR wins.
+2. Do not wait for claimed attempts or vague “working on it” comments.
+3. Comment on duplicates explaining the winning implementation already landed.
+4. Close duplicates after the chosen PR merges.
 
 ## Merge policy
 
