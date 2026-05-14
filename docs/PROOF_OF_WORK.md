@@ -12,7 +12,7 @@ For gameplay/economy changes, attach at least one of:
 - a GIF or screen recording of the room behavior
 - a simulation report showing the requested tick count and RCL milestone
 - a replay/private-server log with the seed/config used
-- an unlisted YouTube link or other stable video link, if the clip is too large for GitHub
+- an GitHub-attached short clip/GIF, if the clip is necessary
 
 ## RCL milestone proof
 
@@ -61,7 +61,7 @@ For RCL milestone bounties, the best proof is a short accelerated clip:
 - show the final RCL milestone being reached
 - include the seed/config in the PR text
 - include the exact commit SHA tested
-- post as a GitHub attachment, GIF, or unlisted YouTube link
+- post as a GitHub attachment/GIF when needed
 
 A video without seed/config is weaker proof. A seed/config without video can still be acceptable if it is fully reproducible.
 

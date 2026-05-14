@@ -117,6 +117,7 @@ Points are for fun and triage. They are **not money**.
 - [docs/PR_TRIAGE.md](docs/PR_TRIAGE.md) — triage categories and reusable review responses
 - [docs/MAINTAINER_DECISIONS.md](docs/MAINTAINER_DECISIONS.md) — public decision log
 - [docs/BRANCH_PROTECTION.md](docs/BRANCH_PROTECTION.md) — current branch protection setup
+- [docs/REVIEW_POLICY.md](docs/REVIEW_POLICY.md) — strict review stance for links, proof, and low-trust submissions
 - [docs/DISCUSSIONS.md](docs/DISCUSSIONS.md) — when to use GitHub Discussions
 - [docs/AGENT_BAIT.md](docs/AGENT_BAIT.md) — honest challenge hooks and contributor ritual
 
@@ -139,7 +140,7 @@ Bounty PRs should include proof, especially when they claim colony progress or R
 
 Preferred evidence:
 
-- short video/GIF of a room reaching the requested RCL
+- short GitHub-attached video/GIF of a room reaching the requested RCL
 - simulation output from `npm run simulate:1k` or `npm run simulate:10k`
 - replay/private-server log with seed/config
 - exact commands used to verify the change

@@ -17,7 +17,7 @@ Closes #
 
 Attach or link evidence when relevant:
 
-- Video/GIF or unlisted YouTube link:
+- GitHub-attached video/GIF GitHub attachment:
 - Proof level: unit / offline-smoke / private-server / video-replay
 - Simulation report:
 - Replay/private-server log:

@@ -40,7 +40,7 @@ The bot only auto-closes hard red flags:
    - `.exe`, `.dll`, `.dmg`, `.pkg`, `.appimage`
    - `.png`, `.jpg`, `.gif`, `.mp4`, `.mov`, `.webm`, `.pdf`
 
-Proof media should be linked from GitHub/YouTube in the PR body, not committed into the repo.
+Proof should be pasted into the PR or attached in GitHub when needed, not committed into the repo and not hosted on random external sites.
 
 ## What it does not auto-close
 

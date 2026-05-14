@@ -37,8 +37,8 @@ npm run simulate:1k
 
 Attach one when relevant:
 
-- [ ] short video/GIF of the room behavior or RCL milestone
-- [ ] unlisted YouTube link for longer proof clips
+- [ ] short GitHub-attached video/GIF of the room behavior or RCL milestone
+- [ ] GitHub-attached clip/GIF for proof clips
 - [ ] simulation report output, labeled as offline smoke proof
 - [ ] private-server/replay log with seed/config
 - [ ] screenshot plus exact commands

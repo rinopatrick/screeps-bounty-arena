@@ -23,18 +23,22 @@ jobs:
           script: |
             const owner = context.repo.owner;
             const repo = context.repo.repo;
-            const marker = '<!-- low-trust-triage-v1 -->';
+            const marker = '<!-- low-trust-triage-v2 -->';
 
-            const externalHostPattern = /\b(?:gofile\.io|mega\.nz|mediafire\.com|anonfiles\.com|pixeldrain\.com|dropbox\.com|drive\.google\.com|weTransfer\.com|wetransfer\.com|pastebin\.com|gist\.github\.com|file\.io)\b/i;
-            const archivePattern = /\bhttps?:\/\/\S+\.(?:zip|tar|tgz|tar\.gz|7z|rar|exe|dmg|pkg|appimage|bin)(?:\?\S*)?/i;
-            const proofVideoPattern = /\b(?:youtube\.com|youtu\.be|github\.com\/.*\/assets|user-images\.githubusercontent\.com)\b/i;
+            const urlPattern = /https?:\/\/[^\s)>'"]+/gi;
+            const repoUrlPattern = /^https:\/\/github\.com\/waxeye7\/screeps-bounty-arena(?:\/|$)/i;
+            const githubAttachmentPattern = /^https:\/\/(?:user-images\.githubusercontent\.com|github\.com\/user-attachments\/assets)\//i;
+            const archivePattern = /\.(?:zip|tar|tgz|tar\.gz|7z|rar|exe|dmg|pkg|appimage|bin)(?:[?#].*)?$/i;
+            const blockedHostPattern = /\b(?:gofile\.io|mega\.nz|mediafire\.com|anonfiles\.com|pixeldrain\.com|dropbox\.com|drive\.google\.com|wetransfer\.com|pastebin\.com|gist\.github\.com|file\.io)\b/i;
+            const videoHostPattern = /\b(?:youtube\.com|youtu\.be|vimeo\.com|streamable\.com)\b/i;
             const secretPathPattern = /(^|\/)(?:\.env(?:\..*)?|\.screepsrc|\.screeps\.json|secrets?\.(?:json|ya?ml|toml|ini)|credentials?\.(?:json|ya?ml|toml|ini)|memory.*\.json)$/i;
             const binaryPathPattern = /\.(?:zip|tar|tgz|gz|7z|rar|exe|dll|dmg|pkg|appimage|png|jpe?g|gif|mp4|mov|webm|pdf)$/i;
             const workflowPathPattern = /^\.github\/workflows\//;
 
             async function addLabels(issue_number, labels) {
-              if (!labels.length) return;
-              await github.rest.issues.addLabels({ owner, repo, issue_number, labels });
+              const unique = [...new Set(labels)].filter(Boolean);
+              if (!unique.length) return;
+              await github.rest.issues.addLabels({ owner, repo, issue_number, labels: unique });
             }
 
             async function commentOnce(issue_number, body) {
@@ -52,10 +56,23 @@ jobs:
 
             function classifyText(text) {
               const value = text || '';
+              const urls = value.match(urlPattern) || [];
               const flags = [];
-              if (archivePattern.test(value)) flags.push('external-archive-link');
-              if (externalHostPattern.test(value)) flags.push('external-download-host');
-              return flags;
+              for (const rawUrl of urls) {
+                const url = rawUrl.replace(/[.,;:]+$/, '');
+                if (repoUrlPattern.test(url) || githubAttachmentPattern.test(url)) continue;
+                if (archivePattern.test(url) || blockedHostPattern.test(url)) flags.push('blocked-external-download');
+                else if (videoHostPattern.test(url)) flags.push('external-video-link');
+                else flags.push('external-link');
+              }
+              return [...new Set(flags)];
+            }
+
+            function externalLinkComment(flags) {
+              if (flags.includes('blocked-external-download')) {
+                return `${marker}\nClosed because this submission relies on external download/archive/file-host links. Code must be submitted as a normal GitHub PR diff, and proof must be pasted or attached in GitHub. External archives/downloads are not accepted.`;
+              }
+              return `${marker}\nThis submission includes external links, so it has been labeled \`low-trust\`. External links are not accepted as primary proof. Please paste logs/commands directly in the PR or use GitHub attachments as supporting evidence.`;
             }
 
             if (context.eventName === 'pull_request_target') {
@@ -75,26 +92,30 @@ jobs:
               if (secretFiles.length) labels.push('blocked:secrets');
               if (binaryFiles.length) labels.push('blocked:binary-artifact');
               if (workflowFiles.length) labels.push('needs-maintainer-review');
-              if ((pr.body || '').toLowerCase().includes('rcl') && !proofVideoPattern.test(pr.body || '')) labels.push('needs-proof');
-              await addLabels(issue_number, [...new Set(labels)]);
+              if ((pr.body || '').toLowerCase().includes('rcl') && !(pr.body || '').toLowerCase().includes('seed')) labels.push('needs-proof');
+              await addLabels(issue_number, labels);
 
               if (secretFiles.length) {
-                await closeIssue(issue_number, `Closed automatically because this PR changes files that look like secrets or local Screeps credentials:\n\n${secretFiles.map((p) => `- \`${p}\``).join('\n')}\n\nPlease reopen with a clean PR that uses example config files only, never real tokens or private config.`);
+                await closeIssue(issue_number, `Closed automatically because this PR changes files that look like secrets or local Screeps credentials:\n\n${secretFiles.map((p) => `- \`${p}\``).join('\n')}\n\nUse example config files only. Never commit real tokens or private config.`);
                 return;
               }
 
               if (binaryFiles.length) {
-                await closeIssue(issue_number, `Closed automatically because this PR commits binary/archive/media artifacts into the repo:\n\n${binaryFiles.map((p) => `- \`${p}\``).join('\n')}\n\nPlease keep proof videos as GitHub/YouTube links in the PR body and keep repository changes as reviewable text/code.`);
+                await closeIssue(issue_number, `Closed automatically because this PR commits binary/archive/media artifacts into the repo:\n\n${binaryFiles.map((p) => `- \`${p}\``).join('\n')}\n\nKeep repository changes as reviewable text/code. Proof should be pasted or attached in GitHub, not committed as binary files.`);
+                return;
+              }
+
+              if (textFlags.includes('blocked-external-download')) {
+                await closeIssue(issue_number, externalLinkComment(textFlags));
                 return;
               }
 
               if (textFlags.length) {
-                await commentOnce(issue_number, `${marker}\nThanks for the submission. This PR mentions external download/archive links, so it has been labeled \`low-trust\` for maintainer review.\n\nPlease make sure all code changes are visible directly in the GitHub PR diff. External links may be used only as supporting proof videos/logs, not as the source of code to review.`);
-                return;
+                await commentOnce(issue_number, externalLinkComment(textFlags));
               }
 
               if (workflowFiles.length) {
-                await commentOnce(issue_number, `${marker}\nThis PR changes GitHub Actions workflow files, so it needs explicit maintainer review before merge. I will not auto-approve workflow changes from untrusted submissions.`);
+                await commentOnce(issue_number, `${marker}\nThis PR changes GitHub Actions workflow files, so it needs explicit maintainer review before merge. Workflow changes from untrusted submissions are never auto-approved.`);
               }
               return;
             }
@@ -104,9 +125,12 @@ jobs:
               if (issue.pull_request) return;
               const issue_number = issue.number;
               const flags = classifyText(`${issue.title}\n${issue.body || ''}`);
-              if (flags.length) {
+              if (flags.includes('blocked-external-download')) {
                 await addLabels(issue_number, ['low-trust', 'external-link']);
-                await commentOnce(issue_number, `${marker}\nThis issue includes external download/archive-style links and has been labeled for maintainer review. Please do not use external archives for code submission; open a normal GitHub PR instead.`);
+                await closeIssue(issue_number, externalLinkComment(flags));
+              } else if (flags.length) {
+                await addLabels(issue_number, ['low-trust', 'external-link']);
+                await commentOnce(issue_number, externalLinkComment(flags));
               }
               return;
             }
@@ -116,8 +140,11 @@ jobs:
               const issue = context.payload.issue;
               const issue_number = issue.number;
               const flags = classifyText(comment.body || '');
-              if (flags.length) {
+              if (flags.includes('blocked-external-download')) {
                 await addLabels(issue_number, ['low-trust', 'external-link']);
-                await commentOnce(issue_number, `${marker}\nA comment on this thread includes external download/archive-style links, so this has been labeled for maintainer review. Please submit code through a normal GitHub PR diff. Supporting proof videos/logs are okay, but external code archives are not accepted.`);
+                await closeIssue(issue_number, externalLinkComment(flags));
+              } else if (flags.length) {
+                await addLabels(issue_number, ['low-trust', 'external-link']);
+                await commentOnce(issue_number, externalLinkComment(flags));
               }
             }

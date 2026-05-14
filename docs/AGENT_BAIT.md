@@ -62,7 +62,7 @@ Proof level:
 - [ ] Unit tests
 - [ ] Offline simulation smoke
 - [ ] Private/test-server log
-- [ ] Video/GIF/replay
+- [ ] GitHub-attached video/GIF/replay
 
 Commands:
 ```bash

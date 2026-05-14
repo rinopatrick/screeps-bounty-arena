@@ -71,6 +71,6 @@ node scripts/simulate.mjs --ticks <ticks> --room-seed <seed> --spawn-seed <seed>
 ## Notes for contributors
 
 - Prefer pasted simulator JSON/markdown for small proof artifacts.
-- Use GitHub attachments or unlisted video links only as supporting evidence.
+- Use GitHub attachments only as supporting evidence. External links are not primary proof.
 - Do not ask reviewers to download opaque archives to inspect code.
 - If the proof cannot be reproduced, state the limitation clearly instead of overstating the result.

@@ -47,7 +47,7 @@ Do not merge these casually until the test-server path exists.
 
 ### Needs normal PR, not archive
 
-> Thanks. For safety and reviewability, please submit code as a normal GitHub PR rather than an external archive/download link. Video/proof links are fine as supporting evidence, but code must be reviewable directly in GitHub.
+> Thanks. For safety and reviewability, please submit code as a normal GitHub PR rather than an external archive/download link. External proof links are not primary evidence. Code must be reviewable directly in GitHub, and proof should be pasted or attached in GitHub.
 
 ### Duplicate PR
 
@@ -55,7 +55,7 @@ Do not merge these casually until the test-server path exists.
 
 ### Needs proof
 
-> This touches gameplay/economy behavior. Please add verification output from `npm run check`, `npm test`, and the relevant simulation command. For RCL claims, include seed/config and tick reached.
+> This touches gameplay/economy behavior. Please paste verification output from `npm run check`, `npm test`, and the relevant simulation command. For RCL claims, include seed/config, tick reached, commit SHA, and private-server/video proof when available.
 
 ### Too broad
 
@@ -64,3 +64,8 @@ Do not merge these casually until the test-server path exists.
 ## Merge discipline
 
 Never merge several PRs at once. Merge one, update main, run checks, then continue.
+
+
+### External links / weak proof
+
+> I am not using external links as primary evidence. Please paste the relevant logs/commands directly into the PR and attach any short proof clip in GitHub. External downloads, archives, or file hosts are not accepted.

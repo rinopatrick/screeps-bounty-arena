@@ -49,7 +49,7 @@ Room/spawn seed: W8N3-fresh-spawn-a
 Ticks: 8,421
 Result: reached RCL 3
 
-Video: https://youtu.be/example-unlisted
+Video: GitHub attachment in this PR
 Simulation:
 
 ```bash

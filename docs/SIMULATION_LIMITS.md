@@ -83,7 +83,7 @@ For serious RCL/economy claims, include one of:
 - private/test-server log with seed/config and tick reached
 - replay output
 - short accelerated video/GIF
-- unlisted YouTube clip
+- GitHub-attached short clip/GIF
 - exact commit SHA and commands
 
 The next quality step for this repo is to turn the private/test-server placeholder into a real upload + log export workflow that still keeps credentials outside the repo.
