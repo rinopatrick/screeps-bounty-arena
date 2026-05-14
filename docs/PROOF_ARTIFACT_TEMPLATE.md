@@ -61,11 +61,18 @@ node scripts/simulate.mjs --ticks <ticks> --room-seed <seed> --spawn-seed <seed>
 - Shows final milestone: yes / no
 - Matches commit SHA and seeds above: yes / no
 
+## Proof level checklist (select all that apply)
+- [ ] Offline smoke simulation (fast, deterministic approximation — trust level: smoke)
+- [ ] Private server full-engine run (Screeps private server — trust level: high)
+- [ ] Video/GIF replay attached (required for RCL milestone bounties unless simulation only)
+- [ ] Log/replay file attached (server logs or replay file)
+
 ## Reviewer checklist
 - [ ] Commands above pass from a clean checkout.
 - [ ] Seed/config fields are enough to reproduce the run.
 - [ ] Video/replay/log evidence matches the tested commit.
 - [ ] No secrets, private tokens, or unrelated external archives are required.
+- [ ] Proof level matches issue requirements (e.g., video required for RCL milestone).
 ```
 
 ## Notes for contributors
@@ -74,3 +81,5 @@ node scripts/simulate.mjs --ticks <ticks> --room-seed <seed> --spawn-seed <seed>
 - Use GitHub attachments only as supporting evidence. External links are not primary proof.
 - Do not ask reviewers to download opaque archives to inspect code.
 - If the proof cannot be reproduced, state the limitation clearly instead of overstating the result.
+- **Offline simulation** (`simulate.mjs`) is smoke-level approximation only; it does not run the full Screeps engine. For high-trust proof, use a private server run with video.
+
