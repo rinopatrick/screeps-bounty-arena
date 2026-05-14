@@ -53,7 +53,7 @@ Do not commit videos or local server state. Put proof in the PR body/comment:
 ```bash
 docker compose ps
 docker compose logs --tail=120 screeps
-npm run server:proof -- --compose-dir examples/local-screeps-server --markdown
+npm run server:proof
 ```
 
 For videos/GIFs, attach a short clip directly to the GitHub PR. External video links are supporting evidence only, not primary proof.
