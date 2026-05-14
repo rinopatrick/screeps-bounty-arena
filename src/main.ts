@@ -1,7 +1,15 @@
 import { runTowerDefense } from './defense/towers';
-import { ensureBasicBuilders, ensureBasicHarvesters, ensureBasicRepairers, ensureBasicUpgraders } from './planning/spawn';
+import {
+  ensureBasicBuilders,
+  ensureBasicHarvesters,
+  ensureBasicRepairers,
+  ensureBasicUpgraders,
+  ensureContainerMiningEconomy,
+} from './planning/spawn';
 import { runBuilder } from './roles/builder';
+import { runHauler } from './roles/hauler';
 import { runHarvester } from './roles/harvester';
+import { runMiner } from './roles/miner';
 import { runRepairer } from './roles/repairer';
 import { runUpgrader } from './roles/upgrader';
 import { cleanupDeadCreeps, migrateRoomMemory } from './memory';
@@ -15,6 +23,7 @@ export function loop(): void {
   for (const spawn of Object.values(Game.spawns)) {
     rooms.add(spawn.room);
     ensureBasicHarvesters(spawn);
+    ensureContainerMiningEconomy(spawn);
     ensureBasicUpgraders(spawn);
     ensureBasicBuilders(spawn);
     ensureBasicRepairers(spawn);
@@ -28,6 +37,12 @@ export function loop(): void {
     switch (creep.memory.role) {
       case 'builder':
         runBuilder(creep);
+        break;
+      case 'hauler':
+        runHauler(creep);
+        break;
+      case 'miner':
+        runMiner(creep);
         break;
       case 'upgrader':
         runUpgrader(creep);
