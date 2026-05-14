@@ -32,11 +32,14 @@ function isRecord(value: unknown): value is Record<string, never> {
 }
 
 export function migrateRoomMemory(): void {
-  Memory.rooms ??= {};
+  if (!isRecord(Memory.rooms)) {
+    Memory.rooms = {};
+  }
 
   for (const roomName of Object.keys(Game.rooms ?? {})) {
-    const existing = Memory.rooms[roomName] ?? {};
-    Memory.rooms[roomName] = migrateRoomMemoryRecord(existing);
+    const existing = Memory.rooms[roomName];
+    const safeExisting = isRecord(existing) ? existing : {};
+    Memory.rooms[roomName] = migrateRoomMemoryRecord(safeExisting);
   }
 }
 

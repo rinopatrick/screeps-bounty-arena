@@ -60,3 +60,31 @@ describe('memory helpers', () => {
     });
   });
 });
+
+describe('memory helpers regression (bounty #78)', () => {
+  it('handles corrupt room memory entries (string values) without crashing', () => {
+    (Memory as unknown as { rooms: Record<string, unknown> }).rooms = {
+      W1N1: 'corrupted-string-data',
+      W1N2: null as any,
+      W1N3: undefined as any,
+    };
+    Game.rooms = {
+      W1N1: {} as Room,
+      W1N2: {} as Room,
+      W1N3: {} as Room,
+    };
+
+    expect(() => migrateRoomMemory()).not.toThrow();
+    expect(Memory.rooms.W1N1).toEqual({ version: ROOM_MEMORY_VERSION });
+    expect(Memory.rooms.W1N2).toEqual({ version: ROOM_MEMORY_VERSION });
+    expect(Memory.rooms.W1N3).toEqual({ version: ROOM_MEMORY_VERSION });
+  });
+
+  it('handles non-record Memory.rooms (array, number) safely', () => {
+    (Memory as unknown as { rooms: unknown }).rooms = ['array', 'not', 'object'] as any;
+    Game.rooms = {};
+
+    expect(() => migrateRoomMemory()).not.toThrow();
+    expect(Memory.rooms).toEqual({});
+  });
+});
