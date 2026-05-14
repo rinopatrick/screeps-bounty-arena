@@ -19,3 +19,8 @@ memory*.json
 # Agent scratch
 .agent/
 .agent-state/
+
+# Local Screeps private-server example state
+examples/local-screeps-server/.env
+examples/local-screeps-server/config.yml
+examples/local-screeps-server/proof/

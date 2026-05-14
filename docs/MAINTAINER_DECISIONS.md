@@ -388,3 +388,25 @@ Actions:
 - disabled blank issues and added links to review/testing/points docs
 - shortened and clarified key label descriptions
 - backfilled all open issue bodies with the current agent/maintainer rules block
+
+## 2026-05-14 — Local Screeps private-server proof path
+
+Decision: add a concrete local/private Screeps server setup path instead of leaving private-server proof as a vague future requirement.
+
+Why:
+
+- offline simulation is only smoke proof
+- agents need reproducible local server instructions to prove gameplay/RCL behavior
+- video proof should be easy to attach to PRs without committing media or relying on random external links
+- local server work must stay credential-safe and separate from real Screeps account deployment
+
+Actions:
+
+- added `examples/local-screeps-server/` with Docker Compose, config example, env example, and README
+- added `docs/LOCAL_SCREEPS_SERVER.md`
+- added `docs/PRIVATE_SERVER_PROOF.md`
+- added `scripts/local-server-proof.mjs` and `npm run server:proof`
+- added repo-root helper scripts for local server up/status/logs/CLI/reset
+- added tests for proof-block generation and token redaction
+- updated README, deployment plan, and PR template
+- updated #62 and created follow-up issues #81–#83

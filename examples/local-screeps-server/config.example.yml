@@ -1,0 +1,39 @@
+# Copy this file to config.yml before running Docker Compose.
+# Do not commit your real config.yml if it contains local secrets or passwords.
+
+# screeps-launcher can read STEAM_KEY from the environment. Keep it in .env.
+# steamKey: ${STEAM_KEY}
+
+nodeVersion: Krypton
+version: latest
+
+# Pin packages known to have broken older launcher/server installs in the past.
+# Keep this list aligned with screepers/screeps-launcher when updating the example.
+pinnedPackages:
+  ssri: 8.0.1
+  cacache: 15.3.0
+  passport-steam: 1.0.17
+  minipass-fetch: 2.1.2
+  express-rate-limit: 6.7.0
+
+mods:
+  - screepsmod-mongo
+  - screepsmod-auth
+  - screepsmod-admin-utils
+  - screepsmod-map-tool
+  - screepsmod-history
+
+serverConfig:
+  welcomeText: |
+    <h1 style="text-align: center;">Screeps Bounty Arena Local Test Server</h1>
+    <p>Use this server for private proof, regression testing, and local RCL milestone runs.</p>
+  constants:
+    # Keep normal-ish constants by default. Add explicit test overrides in PRs if needed.
+    TEST_CONSTANT: 123
+  tickRate: 1000
+
+cli:
+  host: localhost
+  port: 21025
+  username: local-test-user
+  password: local-test-password

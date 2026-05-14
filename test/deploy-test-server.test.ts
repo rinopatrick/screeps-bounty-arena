@@ -56,4 +56,27 @@ describe("private test-server workflow", () => {
     expect(output).toContain("final RCL:");
     expect(output).toContain("failures: 0");
   });
+
+  it("generates a local-server proof block without leaking tokens", () => {
+    const output = execFileSync(
+      "node",
+      ["scripts/local-server-proof.mjs", "--compose-dir", "does-not-exist", "--markdown"],
+      {
+        encoding: "utf8",
+        env: {
+          ...process.env,
+          SCREEPS_SERVER_URL: "http://localhost:21025",
+          SCREEPS_BRANCH: "agent-sandbox",
+          SCREEPS_TOKEN: "super-secret-token",
+        },
+      },
+    );
+
+    expect(output).toContain("## Local Screeps private-server proof");
+    expect(output).toContain("Server URL: http://localhost:21025");
+    expect(output).toContain("Branch: agent-sandbox");
+    expect(output).toContain("Token configured: yes (redacted)");
+    expect(output).toContain("docker-compose.yml not found");
+    expect(output).not.toContain("super-secret-token");
+  });
 });

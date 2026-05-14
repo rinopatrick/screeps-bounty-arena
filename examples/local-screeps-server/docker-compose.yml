@@ -1,0 +1,53 @@
+services:
+  screeps:
+    image: screepers/screeps-launcher:latest
+    restart: unless-stopped
+    ports:
+      - "${SCREEPS_LAUNCHER_HOST:-127.0.0.1}:21025:21025/tcp"
+    volumes:
+      - ./config.yml:/screeps/config.yml:ro
+      - screeps-data:/screeps
+    environment:
+      STEAM_KEY: ${STEAM_KEY:?Set STEAM_KEY in .env before starting the server}
+      MONGO_HOST: mongo
+      REDIS_HOST: redis
+    depends_on:
+      mongo:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl --fail --silent http://127.0.0.1:21025/ >/dev/null"]
+      interval: 30s
+      timeout: 5s
+      start_period: 30s
+      retries: 5
+
+  mongo:
+    image: mongo:8
+    restart: unless-stopped
+    volumes:
+      - mongo-data:/data/db
+    healthcheck:
+      test: ["CMD-SHELL", "echo 'db.runCommand(\"ping\").ok' | mongosh localhost:27017/test --quiet"]
+      interval: 30s
+      timeout: 5s
+      start_period: 30s
+      retries: 5
+
+  redis:
+    image: redis:8
+    restart: unless-stopped
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 5s
+      start_period: 30s
+      retries: 5
+
+volumes:
+  screeps-data:
+  mongo-data:
+  redis-data:

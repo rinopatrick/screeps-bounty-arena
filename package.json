@@ -43,7 +43,14 @@
     "simulate:gate:rcl2": "node scripts/simulate.mjs --ticks 1000 --require-rcl 2 --require-rcl-by 1000 --markdown",
     "simulate:gate:rcl3": "node scripts/simulate.mjs --ticks 3000 --require-rcl 3 --require-rcl-by 3000 --markdown",
     "deploy:test-server": "node scripts/deploy-test-server.mjs",
-    "server:status": "node scripts/test-server-status.mjs"
+    "server:status": "node scripts/test-server-status.mjs",
+    "server:proof": "node scripts/local-server-proof.mjs",
+    "server:local:up": "docker compose --env-file examples/local-screeps-server/.env -f examples/local-screeps-server/docker-compose.yml up -d",
+    "server:local:ps": "docker compose --env-file examples/local-screeps-server/.env -f examples/local-screeps-server/docker-compose.yml ps",
+    "server:local:logs": "docker compose --env-file examples/local-screeps-server/.env -f examples/local-screeps-server/docker-compose.yml logs --tail=120 screeps",
+    "server:local:cli": "docker compose --env-file examples/local-screeps-server/.env -f examples/local-screeps-server/docker-compose.yml exec screeps screeps-launcher cli",
+    "server:local:down": "docker compose --env-file examples/local-screeps-server/.env -f examples/local-screeps-server/docker-compose.yml down",
+    "server:local:reset": "docker compose --env-file examples/local-screeps-server/.env -f examples/local-screeps-server/docker-compose.yml down -v"
   },
   "devDependencies": {
     "@types/node": "latest",

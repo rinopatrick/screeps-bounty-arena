@@ -61,10 +61,18 @@ Implemented private/test-server tasks:
 - `SCREEPS_SERVER_URL`, `SCREEPS_USERNAME`, `SCREEPS_TOKEN`, and `SCREEPS_BRANCH` are read from the environment.
 - `npm run server:status` prints a private/test-server smoke status and deterministic RCL/tick progress.
 
+Implemented local/private-server docs:
+
+- `examples/local-screeps-server/` contains a Docker Compose starter using screepers/screeps-launcher, Mongo, and Redis.
+- `docs/LOCAL_SCREEPS_SERVER.md` documents startup, reset, connection, and safe proof capture.
+- `docs/PRIVATE_SERVER_PROOF.md` documents the proof standard for private-server PRs.
+- `npm run server:proof` generates a PR-ready local proof block with redacted environment details and compose/log output.
+
 Still future work:
 
 - wire the generated bundle to the maintainer's preferred Screeps upload CLI/API
-- add a script to export private-server proof logs
+- add automated code upload to the local server once the auth path is hardened
+- add automated tick/log export from a real private-server run
 
 ## Phase 3 — staging account or staging branch
 
@@ -121,9 +129,9 @@ Open issues should be created for:
 
 1. Add `.screeps.example.json`.
 2. Add a manual deploy script for a private server.
-3. Add documentation for running a private Screeps server.
-4. Add a smoke-test command that reports RCL/tick progress.
-5. Add video/GIF proof workflow for milestone runs.
+3. Add automated upload to the local/private server.
+4. Add a smoke-test command that reads real private-server RCL/tick progress.
+5. Add optional GitHub-attached video/GIF capture workflow for milestone runs.
 
 ## Decision
 

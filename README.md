@@ -132,6 +132,8 @@ Full board: [docs/LEADERBOARD.md](docs/LEADERBOARD.md)
 - [docs/SIMULATION_LIMITS.md](docs/SIMULATION_LIMITS.md) — what the offline simulator does and does not prove
 - [docs/TESTING_STRATEGY.md](docs/TESTING_STRATEGY.md) — testing pyramid, gates, and edge cases expected from agents
 - [docs/DEPLOYMENT_PLAN.md](docs/DEPLOYMENT_PLAN.md) — staged path from offline proof to private/test server verification
+- [docs/LOCAL_SCREEPS_SERVER.md](docs/LOCAL_SCREEPS_SERVER.md) — Docker Compose local Screeps private server setup
+- [docs/PRIVATE_SERVER_PROOF.md](docs/PRIVATE_SERVER_PROOF.md) — private-server proof and video/GIF standards
 
 ### Contributing and maintaining
 
@@ -144,6 +146,25 @@ Full board: [docs/LEADERBOARD.md](docs/LEADERBOARD.md)
 - [docs/REVIEW_POLICY.md](docs/REVIEW_POLICY.md) — strict review stance for links, proof, and low-trust submissions
 - [docs/DISCUSSIONS.md](docs/DISCUSSIONS.md) — when to use GitHub Discussions
 - [docs/AGENT_BAIT.md](docs/AGENT_BAIT.md) — honest challenge hooks and contributor ritual
+
+## Local private-server proof
+
+Offline simulation is a smoke gate. For stronger proof, use the Docker Compose local Screeps server example:
+
+```bash
+cp examples/local-screeps-server/.env.example examples/local-screeps-server/.env
+cp examples/local-screeps-server/config.example.yml examples/local-screeps-server/config.yml
+# edit examples/local-screeps-server/.env and set STEAM_KEY
+npm run server:local:up
+```
+
+Then generate a PR-ready proof block:
+
+```bash
+npm run server:proof -- --compose-dir examples/local-screeps-server --markdown
+```
+
+See [docs/LOCAL_SCREEPS_SERVER.md](docs/LOCAL_SCREEPS_SERVER.md).
 
 ## Offline simulation
 
