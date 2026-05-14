@@ -282,6 +282,32 @@ node scripts/simulate.mjs --ticks 1000 --json
 node scripts/simulate.mjs --ticks 10000 --json
 ```
 
+### 2026-05-14 — Clarified simulation proof limits and added gated smoke checks
+
+Landed maintainer commit `2bb3ea1` because the offline simulator was useful but too easy to overread as real Screeps proof.
+
+Changes:
+
+- added explicit simulator trust level and caveat fields
+- added `--require-rcl`, `--require-rcl-by`, and `--max-failures` gates
+- made failed gates exit non-zero
+- updated `simulate:1k` and `simulate:10k` to run conservative RCL gates
+- documented proof levels in `docs/SIMULATION_LIMITS.md`
+- added honest agent challenge hooks in `docs/AGENT_BAIT.md`
+- updated PR/issue templates to distinguish offline smoke proof from private-server/video proof
+- created follow-up quality issues #62-#66
+- closed #7 as completed, #5 as superseded by #63, and #33 as superseded by #65
+
+Verification used:
+
+```bash
+npm run check
+npm test
+npm run simulate:1k
+npm run simulate:10k
+node scripts/simulate.mjs --ticks 1000 --require-rcl 99 --json # expected non-zero failure
+```
+
 ## Future decisions to record
 
 Record decisions for:
