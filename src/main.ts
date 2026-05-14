@@ -1,7 +1,8 @@
 import { runTowerDefense } from './defense/towers';
-import { ensureBasicBuilders, ensureBasicHarvesters, ensureBasicUpgraders } from './planning/spawn';
+import { ensureBasicBuilders, ensureBasicHarvesters, ensureBasicRepairers, ensureBasicUpgraders } from './planning/spawn';
 import { runBuilder } from './roles/builder';
 import { runHarvester } from './roles/harvester';
+import { runRepairer } from './roles/repairer';
 import { runUpgrader } from './roles/upgrader';
 import { cleanupDeadCreeps, migrateRoomMemory } from './memory';
 
@@ -16,6 +17,7 @@ export function loop(): void {
     ensureBasicHarvesters(spawn);
     ensureBasicUpgraders(spawn);
     ensureBasicBuilders(spawn);
+    ensureBasicRepairers(spawn);
   }
 
   for (const room of rooms) {
@@ -30,6 +32,9 @@ export function loop(): void {
       case 'upgrader':
         runUpgrader(creep);
         break;
+      case 'repairer':
+        runRepairer(creep);
+        break;
       case 'harvester':
       default:
         runHarvester(creep);
@@ -37,4 +42,3 @@ export function loop(): void {
     }
   }
 }
-

@@ -23,7 +23,7 @@ declare global {
 
   type BodyPartConstant = 'work' | 'carry' | 'move' | 'attack' | 'ranged_attack' | 'heal';
   type ResourceConstant = 'energy';
-  type CreepRole = 'harvester' | 'upgrader' | 'builder';
+  type CreepRole = 'harvester' | 'upgrader' | 'builder' | 'repairer';
 
   interface MemoryGlobal {
     creeps: Record<string, CreepMemory>;
@@ -86,6 +86,7 @@ declare global {
     harvest(source: Source): 0 | -9;
     transfer(target: StructureSpawn, resource: ResourceConstant): 0 | -9;
     build(target: ConstructionSite): 0 | -9;
+    repair(target: Structure): 0 | -9;
     upgradeController(target: StructureController): 0 | -9;
     moveTo(target: RoomObject, opts?: { visualizePathStyle?: { stroke?: string } }): number;
     say(message: string): number;
