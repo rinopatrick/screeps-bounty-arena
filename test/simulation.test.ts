@@ -62,6 +62,18 @@ describe("offline simulation", () => {
     ).toThrow();
   });
 
+  it("fails instead of silently falling back when spawn-config is invalid", () => {
+    expect(() =>
+      execFileSync(
+        "node",
+        ["scripts/simulate.mjs", "--spawn-config", "reckless", "--json"],
+        {
+          encoding: "utf8",
+        },
+      ),
+    ).toThrow(/Invalid spawn-config/);
+  });
+
   it("lists named simulation fixtures", () => {
     const output = execFileSync(
       "node",

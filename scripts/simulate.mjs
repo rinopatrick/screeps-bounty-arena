@@ -7,6 +7,8 @@ import {
   listSimulationFixtures,
 } from "./simulation-fixtures.mjs";
 
+const VALID_SPAWN_CONFIGS = ["conservative", "balanced", "aggressive"];
+
 if (import.meta.url === pathToFileURL(process.argv[1]).href) {
   main();
 }
@@ -94,6 +96,7 @@ export function runOfflineSimulation({
     spawnSeed: spawnSeed ?? fixture?.spawnSeed,
     spawnConfig: fixture?.spawnConfig ?? spawnConfig,
   });
+  assertValidSpawnConfig(seeds.spawnConfig);
   const roomRng = mulberry32(hashSeed(seeds.roomSeed));
   const spawnRng = mulberry32(
     hashSeed(`${seeds.spawnSeed}:${seeds.spawnConfig}`),
@@ -298,8 +301,17 @@ function nextSpawnCost(rng, spawnConfig) {
     balanced: [200, 250, 300],
     aggressive: [250, 300, 350],
   };
-  const costs = profiles[spawnConfig] ?? profiles.balanced;
+  assertValidSpawnConfig(spawnConfig);
+  const costs = profiles[spawnConfig];
   return costs[Math.floor(rng() * costs.length)];
+}
+
+function assertValidSpawnConfig(spawnConfig) {
+  if (!VALID_SPAWN_CONFIGS.includes(spawnConfig)) {
+    throw new Error(
+      `Invalid spawn-config '${spawnConfig}'. Expected one of: ${VALID_SPAWN_CONFIGS.join(", ")}.`,
+    );
+  }
 }
 
 function desiredCreepsForRcl(rcl) {
