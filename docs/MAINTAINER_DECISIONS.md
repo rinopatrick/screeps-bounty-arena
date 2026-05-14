@@ -448,3 +448,19 @@ Actions:
 - merged #85 (`d56155c`) for empty tower action guard
 - merged #86 (`6725422`) for no-controller room tests/fixtures
 - awarded heavy bug/regression points to #84 and #85, and issue points to #86
+
+## 2026-05-14 — Spawn planner edge-case PR #87
+
+Decision: merge #87 as the first clean implementation for #67.
+
+Why:
+
+- focused on spawn planner edge cases requested by #67
+- added regression coverage for busy spawn, low energy, no visible sources, satisfied harvester count, and repeated failed same-tick spawn attempts
+- improved behavior by avoiding impossible spawn calls and retry spam
+- passed current-main dry merge, local check/test/1k/10k/seeded simulation gates, and post-merge verification
+
+Actions:
+
+- merged #87 (`3b05066`)
+- awarded heavy bug/regression credit because it includes behavior fixes plus regression tests

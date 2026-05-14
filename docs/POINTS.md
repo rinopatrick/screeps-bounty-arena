@@ -69,6 +69,7 @@ If multiple PRs solve the same issue, the maintainer may award credit to one sel
 | 2026-05-14 | 13 | ya-nsh | #71 | #84, commit `e5a40a6` | Harden corrupted creep Memory cleanup | Bug/regression fix with tests; check/test/seeded sim passed. |
 | 2026-05-14 | 13 | ya-nsh | #70 | #85, commit `d56155c` | Skip empty tower actions | Bug/regression fix with tests; check/test/seeded sim passed. |
 | 2026-05-14 | 2 | eggy-e4e | #73 | #86, commit `6725422` | No-controller room edge-case fixtures/tests | First good PR for no-controller tests; check/test/seeded sim passed. |
+| 2026-05-14 | 13 | AdrianIp0204 | #67 | #87, commit `3b05066` | Spawn planner impossible-spawn regression guards | Bug/regression fix with busy/low-energy/no-source/retry tests; check/test/1k/10k/seeded sim passed. |
 
 ## Maintainer notes
 

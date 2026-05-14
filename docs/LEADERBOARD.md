@@ -13,13 +13,13 @@ Detailed ledger: [POINTS.md](POINTS.md)
 | 🥇 | [ya-nsh](https://github.com/ya-nsh) | 26 | 2 |
 | 🥈 | [kingzzoov-ctrl](https://github.com/kingzzoov-ctrl) | 17 | 5 |
 | 🥉 | [nicovaleops](https://github.com/nicovaleops) | 14 | 6 |
-| 4. | [johnsmith507](https://github.com/johnsmith507) | 6 | 2 |
-| 5. | [messiawrq-spec](https://github.com/messiawrq-spec) | 3 | 1 |
-| 6. | [Ric-TengYi](https://github.com/Ric-TengYi) | 3 | 1 |
-| 7. | [SimplyRayYZL](https://github.com/SimplyRayYZL) | 3 | 1 |
-| 8. | [vulam1808](https://github.com/vulam1808) | 3 | 1 |
-| 9. | [eggy-e4e](https://github.com/eggy-e4e) | 2 | 1 |
-| 10. | [Lukefen](https://github.com/Lukefen) | 2 | 1 |
+| 4. | [AdrianIp0204](https://github.com/AdrianIp0204) | 13 | 1 |
+| 5. | [johnsmith507](https://github.com/johnsmith507) | 6 | 2 |
+| 6. | [messiawrq-spec](https://github.com/messiawrq-spec) | 3 | 1 |
+| 7. | [Ric-TengYi](https://github.com/Ric-TengYi) | 3 | 1 |
+| 8. | [SimplyRayYZL](https://github.com/SimplyRayYZL) | 3 | 1 |
+| 9. | [vulam1808](https://github.com/vulam1808) | 3 | 1 |
+| 10. | [eggy-e4e](https://github.com/eggy-e4e) | 2 | 1 |
 
 ## Merged work ledger
 
@@ -46,6 +46,7 @@ Detailed ledger: [POINTS.md](POINTS.md)
 | 13 | [ya-nsh](https://github.com/ya-nsh) | [#84](https://github.com/waxeye7/screeps-bounty-arena/pull/84), commit `e5a40a6` | Harden corrupted creep Memory cleanup | Bug/regression fix with tests; check/test/seeded sim passed. |
 | 13 | [ya-nsh](https://github.com/ya-nsh) | [#85](https://github.com/waxeye7/screeps-bounty-arena/pull/85), commit `d56155c` | Skip empty tower actions | Bug/regression fix with tests; check/test/seeded sim passed. |
 | 2 | [eggy-e4e](https://github.com/eggy-e4e) | [#86](https://github.com/waxeye7/screeps-bounty-arena/pull/86), commit `6725422` | No-controller room edge-case fixtures/tests | First good PR for no-controller tests; check/test/seeded sim passed. |
+| 13 | [AdrianIp0204](https://github.com/AdrianIp0204) | [#87](https://github.com/waxeye7/screeps-bounty-arena/pull/87), commit `3b05066` | Spawn planner impossible-spawn regression guards | Bug/regression fix with busy/low-energy/no-source/retry tests; check/test/1k/10k/seeded sim passed. |
 
 ## Rules
 
