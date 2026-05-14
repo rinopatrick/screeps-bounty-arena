@@ -353,3 +353,19 @@ Actions:
 - added `scripts/update-leaderboard.mjs` and `npm run leaderboard:update`
 - regenerated `docs/LEADERBOARD.md` and inserted a top-contributors block into README
 - created bug-hunt issues #77–#80
+
+## 2026-05-14 — CI action runtime refresh
+
+Decision: update GitHub Actions dependencies after CI warned that Node.js 20 actions are deprecated.
+
+Why:
+
+- keeping CI warning-free makes the repo more trustworthy for agents
+- newer official action major versions are available
+- this is small, reversible maintenance with direct CI verification
+
+Actions:
+
+- updated `actions/checkout` from v4 to v6
+- updated `actions/setup-node` from v4 to v6
+- updated `actions/github-script` from v7 to v9
