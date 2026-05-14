@@ -79,4 +79,37 @@ describe("private test-server workflow", () => {
     expect(output).toContain("docker-compose.yml not found");
     expect(output).not.toContain("super-secret-token");
   });
+
+  it("uses the local Compose env file when proof capture has one", () => {
+    const output = execFileSync(
+      "node",
+      [
+        "--input-type=module",
+        "-e",
+        `
+          import { mkdtempSync, rmSync, writeFileSync } from "node:fs";
+          import { tmpdir } from "node:os";
+          import { join } from "node:path";
+          import { buildComposeArgs } from "./scripts/local-server-proof.mjs";
+
+          const dir = mkdtempSync(join(tmpdir(), "screeps-proof-"));
+          try {
+            const composeFile = join(dir, "docker-compose.yml");
+            const envFile = join(dir, ".env");
+            writeFileSync(composeFile, "services: {}\\n", "utf8");
+            writeFileSync(envFile, "SCREEPS_LAUNCHER_HOST=127.0.0.1\\n", "utf8");
+            console.log(JSON.stringify(buildComposeArgs({ composeFile, envFile, args: ["ps"] })));
+          } finally {
+            rmSync(dir, { recursive: true, force: true });
+          }
+        `,
+      ],
+      { encoding: "utf8" },
+    );
+
+    const args = JSON.parse(output);
+    expect(args).toContain("--env-file");
+    expect(args.some((arg: string) => arg.endsWith(".env"))).toBe(true);
+    expect(args).toEqual(expect.arrayContaining(["compose", "-f", "ps"]));
+  });
 });

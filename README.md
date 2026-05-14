@@ -162,7 +162,7 @@ npm run server:local:up
 Then generate a PR-ready proof block:
 
 ```bash
-npm run server:proof -- --compose-dir examples/local-screeps-server --markdown
+npm run server:proof
 ```
 
 See [docs/LOCAL_SCREEPS_SERVER.md](docs/LOCAL_SCREEPS_SERVER.md).

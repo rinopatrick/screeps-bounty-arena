@@ -103,13 +103,13 @@ export SCREEPS_BRANCH=sandbox
 Generate a PR-ready proof block:
 
 ```bash
-npm run server:proof -- --compose-dir examples/local-screeps-server --markdown
+npm run server:proof
 ```
 
 Or write it to a file you can copy from:
 
 ```bash
-npm run server:proof -- --compose-dir examples/local-screeps-server --out examples/local-screeps-server/proof/latest.md
+node scripts/local-server-proof.mjs --out examples/local-screeps-server/proof/latest.md
 ```
 
 Include in the PR:

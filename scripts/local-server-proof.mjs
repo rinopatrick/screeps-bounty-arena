@@ -4,43 +4,51 @@ import { existsSync, mkdirSync, writeFileSync } from "node:fs";
 import { join, resolve } from "node:path";
 import { spawnSync } from "node:child_process";
 import { parseArgs } from "node:util";
+import { pathToFileURL } from "node:url";
 
-const { values } = parseArgs({
-  options: {
-    "compose-dir": { type: "string", default: "examples/local-screeps-server" },
-    out: { type: "string" },
-    markdown: { type: "boolean", default: true },
-    "log-tail": { type: "string", default: "120" },
-  },
-});
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  main(process.argv);
+}
 
-const composeDir = resolve(String(values["compose-dir"]));
-const logTail = Number.parseInt(String(values["log-tail"]), 10);
-const safeTail = Number.isFinite(logTail) && logTail > 0 ? logTail : 120;
+export function main(argv = process.argv) {
+  const { values } = parseArgs({
+    args: argv.slice(2),
+    options: {
+      "compose-dir": { type: "string", default: "examples/local-screeps-server" },
+      out: { type: "string" },
+      markdown: { type: "boolean", default: true },
+      "log-tail": { type: "string", default: "120" },
+    },
+  });
 
-const proof = collectProof({ composeDir, logTail: safeTail });
-const markdown = formatProof(proof);
+  const composeDir = resolve(String(values["compose-dir"]));
+  const logTail = Number.parseInt(String(values["log-tail"]), 10);
+  const safeTail = Number.isFinite(logTail) && logTail > 0 ? logTail : 120;
+  const proof = collectProof({ composeDir, logTail: safeTail });
+  const markdown = formatProof(proof);
 
-if (values.out) {
-  const outPath = resolve(String(values.out));
-  mkdirSync(resolve(outPath, ".."), { recursive: true });
-  writeFileSync(outPath, markdown, "utf8");
-  console.log(`Wrote local Screeps proof template to ${outPath}`);
-} else {
-  console.log(markdown);
+  if (values.out) {
+    const outPath = resolve(String(values.out));
+    mkdirSync(resolve(outPath, ".."), { recursive: true });
+    writeFileSync(outPath, markdown, "utf8");
+    console.log(`Wrote local Screeps proof template to ${outPath}`);
+  } else {
+    console.log(markdown);
+  }
 }
 
 export function collectProof({ composeDir, logTail = 120 }) {
   const composeFile = join(composeDir, "docker-compose.yml");
   const configFile = join(composeDir, "config.yml");
   const envFile = join(composeDir, ".env");
+  const composeArgs = (args) => buildComposeArgs({ composeFile, envFile, args });
   const dockerVersion = run("docker", ["--version"]);
   const composeVersion = run("docker", ["compose", "version"]);
   const composePs = existsSync(composeFile)
-    ? run("docker", ["compose", "-f", composeFile, "ps"])
+    ? run("docker", composeArgs(["ps"]))
     : missing("docker-compose.yml not found");
   const screepsLogs = existsSync(composeFile)
-    ? run("docker", ["compose", "-f", composeFile, "logs", `--tail=${logTail}`, "screeps"])
+    ? run("docker", composeArgs(["logs", `--tail=${logTail}`, "screeps"]))
     : missing("docker-compose.yml not found");
 
   return {
@@ -61,6 +69,15 @@ export function collectProof({ composeDir, logTail = 120 }) {
       hasToken: Boolean(process.env.SCREEPS_TOKEN),
     },
   };
+}
+
+export function buildComposeArgs({ composeFile, envFile, args }) {
+  const composeArgs = ["compose"];
+  if (existsSync(envFile)) {
+    composeArgs.push("--env-file", envFile);
+  }
+  composeArgs.push("-f", composeFile, ...args);
+  return composeArgs;
 }
 
 export function formatProof(proof) {

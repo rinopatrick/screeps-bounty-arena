@@ -19,7 +19,7 @@ Paste a proof block with:
 Generate a starter block:
 
 ```bash
-npm run server:proof -- --compose-dir examples/local-screeps-server --markdown
+npm run server:proof
 ```
 
 ## Strong bug-fix proof
