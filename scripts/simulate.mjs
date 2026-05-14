@@ -3,9 +3,12 @@
 import { pathToFileURL } from "node:url";
 import { parseArgs } from "node:util";
 
+const REMOTE_YIELD_PER_WORKER = 5;
 if (import.meta.url === pathToFileURL(process.argv[1]).href) {
   main();
 }
+
+// Remote mining constant: net energy per remote worker per tick after travel costs
 
 function main() {
   const { values } = parseArgs({
@@ -20,6 +23,11 @@ function main() {
       "require-rcl": { type: "string" },
       "require-rcl-by": { type: "string" },
       "max-failures": { type: "string", default: "0" },
+      "remote-mining": { type: "boolean", default: false },
+      "remote-distance": { type: "string", default: "5" },
+      "remote-target": { type: "string", default: "2" },
+      "remote-min-harvesters": { type: "string", default: "3" },
+      "remote-min-energy": { type: "string", default: "300" },
     },
   });
 
@@ -34,6 +42,14 @@ function main() {
     maxFailures: values["max-failures"],
   });
 
+  const remoteOptions = {
+    enabled: values["remote-mining"],
+    distance: Number.parseInt(values["remote-distance"], 10),
+    target: Number.parseInt(values["remote-target"], 10),
+    minHarvesters: Number.parseInt(values["remote-min-harvesters"], 10),
+    minEnergy: Number.parseInt(values["remote-min-energy"], 10),
+  };
+
   const result = runOfflineSimulation({
     ticks,
     seed: values.seed,
@@ -41,6 +57,7 @@ function main() {
     spawnSeed: values["spawn-seed"],
     spawnConfig: values["spawn-config"],
     gates,
+    remoteOptions,
   });
 
   if (values.json && values.markdown) {
@@ -67,11 +84,20 @@ export function runOfflineSimulation({
   spawnSeed,
   spawnConfig = "balanced",
   gates = {},
+  remoteOptions = {},
 }) {
-  const validSpawnConfigs = ['conservative', 'balanced', 'aggressive'];
+  const validSpawnConfigs = ["conservative", "balanced", "aggressive"];
   if (!validSpawnConfigs.includes(spawnConfig)) {
-    throw new Error(`Invalid spawn-config: ${spawnConfig}. Must be one of ${validSpawnConfigs.join(', ')}`);
+    throw new Error(
+      `Invalid spawn-config: ${spawnConfig}. Must be one of ${validSpawnConfigs.join(", ")}`,
+    );
   }
+
+  const remoteEnabled = remoteOptions.enabled || false;
+  const remoteDistance = remoteOptions.distance ?? 5;
+  const remoteTarget = remoteOptions.target ?? 2;
+  const remoteMinHarvesters = remoteOptions.minHarvesters ?? 3;
+  const remoteMinEnergy = remoteOptions.minEnergy ?? 300;
 
   const seeds = normalizeSimulationSeeds({
     seed,
@@ -83,6 +109,7 @@ export function runOfflineSimulation({
   const spawnRng = mulberry32(
     hashSeed(`${seeds.spawnSeed}:${seeds.spawnConfig}`),
   );
+
   const room = {
     tick: 0,
     rcl: 1,
@@ -90,6 +117,20 @@ export function runOfflineSimulation({
     energy: 300,
     energyCapacity: 300,
     creeps: 1,
+    remoteCreeps: 0,
+    remoteActive: false,
+    remoteTarget,
+    remoteMetrics: {
+      selected: null,
+      homeEnergyMin: Infinity,
+      homeEnergyMax: -Infinity,
+      homeEnergySum: 0,
+      homeEnergyTicks: 0,
+      controllerProgressAtStart: 0,
+      failureReason: null,
+      started: false,
+      startTick: null,
+    },
     constructionProgress: 0,
     failures: [],
   };
@@ -98,23 +139,59 @@ export function runOfflineSimulation({
   for (let tick = 1; tick <= ticks; tick += 1) {
     room.tick = tick;
 
-    const harvestRate = room.creeps * (8 + Math.floor(roomRng() * 3));
+    // Effective home creeps = total - remote
+    const effectiveHomeCreeps = room.creeps - room.remoteCreeps;
+    const harvestRate = effectiveHomeCreeps * (8 + Math.floor(roomRng() * 3));
     const upkeep = Math.max(0, room.creeps - 2) * 2;
     room.energy = Math.min(
       room.energyCapacity,
       room.energy + harvestRate - upkeep,
     );
 
-    const spawnCost = nextSpawnCost(spawnRng, seeds.spawnConfig);
-    if (
-      room.energy >= spawnCost &&
-      room.creeps < desiredCreepsForRcl(room.rcl)
-    ) {
-      room.energy -= spawnCost;
-      room.creeps += 1;
+    // Remote mining energy contribution if active
+    if (room.remoteActive) {
+      const remoteYield = room.remoteCreeps * REMOTE_YIELD_PER_WORKER;
+      room.energy = Math.min(room.energyCapacity, room.energy + remoteYield);
     }
 
-    const upgradeSpend = Math.min(room.energy, 12 + room.creeps * 2);
+    const spawnCost = nextSpawnCost(spawnRng, seeds.spawnConfig);
+    const baseTarget = desiredCreepsForRcl(room.rcl);
+    const totalTarget = baseTarget + (room.remoteActive ? room.remoteTarget : 0);
+    if (!room.remoteActive && remoteEnabled) {
+      const homeCreepsNow = room.creeps - room.remoteCreeps;
+      const canActivate =
+        homeCreepsNow >= remoteMinHarvesters &&
+        room.energy >= remoteMinEnergy &&
+        room.failures.length === 0;
+      if (canActivate) {
+        room.remoteActive = true;
+        room.remoteMetrics.started = true;
+        room.remoteMetrics.startTick = tick;
+        room.remoteMetrics.selected = {
+          distance: remoteDistance,
+          sourceId: `source-${remoteDistance}`,
+          roomName: `W${remoteDistance}N${remoteDistance}`,
+        };
+        room.remoteMetrics.controllerProgressAtStart = room.controllerProgress;
+      }
+    }
+if (room.energy >= spawnCost && room.creeps < totalTarget) {
+      // Decide whether to spawn a remote worker or a home worker
+      let spawnRemote = false;
+      if (room.remoteActive && room.remoteCreeps < room.remoteTarget) {
+        // Only spawn remote if home creeps already meet base target
+        if (effectiveHomeCreeps >= remoteMinHarvesters) {
+          spawnRemote = true;
+        }
+      }
+      if (spawnRemote) {
+        room.remoteCreeps += 1;
+      }
+      room.creeps += 1;
+      room.energy -= spawnCost;
+    }
+
+    const upgradeSpend = Math.min(room.energy, 12 + effectiveHomeCreeps * 2);
     room.energy -= upgradeSpend;
     room.controllerProgress += upgradeSpend;
 
@@ -140,6 +217,18 @@ export function runOfflineSimulation({
       });
     }
 
+    // Evaluate remote mining activation (after spawns and economy steps)
+    
+
+    // Record home energy metrics for successful ticks only
+    if (room.energy >= 0 && room.creeps > 0) {
+      const m = room.remoteMetrics;
+      m.homeEnergyMin = Math.min(m.homeEnergyMin, room.energy);
+      m.homeEnergyMax = Math.max(m.homeEnergyMax, room.energy);
+      m.homeEnergySum += room.energy;
+      m.homeEnergyTicks += 1;
+    }
+
     if (room.energy < 0 || room.creeps <= 0) {
       room.failures.push({
         tick,
@@ -151,6 +240,20 @@ export function runOfflineSimulation({
     }
   }
 
+  // Determine remote mining outcome/failure reason if never started
+  if (remoteEnabled && !room.remoteActive) {
+    const homeCreepsFinal = room.creeps - room.remoteCreeps;
+    if (homeCreepsFinal < remoteMinHarvesters) {
+      room.remoteMetrics.failureReason = `insufficient home harvesters (${homeCreepsFinal} < ${remoteMinHarvesters})`;
+    } else if (room.energy < remoteMinEnergy) {
+      room.remoteMetrics.failureReason = `insufficient home energy (${room.energy} < ${remoteMinEnergy})`;
+    } else if (room.failures.length > 0) {
+      room.remoteMetrics.failureReason = `failures occurred before activation`;
+    } else {
+      room.remoteMetrics.failureReason = `conditions not met within ${ticks} ticks`;
+    }
+  }
+
   const gateResults = evaluateGates({
     gates,
     ticks,
@@ -158,6 +261,26 @@ export function runOfflineSimulation({
     failures: room.failures,
     milestones,
   });
+
+  const remoteMiningResult =
+    remoteEnabled
+      ? {
+          enabled: true,
+          active: room.remoteActive,
+          target: room.remoteTarget,
+          workersAssigned: room.remoteCreeps,
+          selected: room.remoteMetrics.selected,
+          homeEnergyMin: room.remoteMetrics.homeEnergyMin,
+          homeEnergyMax: room.remoteMetrics.homeEnergyMax,
+          homeEnergyAvg:
+            room.remoteMetrics.homeEnergyTicks > 0
+              ? room.remoteMetrics.homeEnergySum / room.remoteMetrics.homeEnergyTicks
+              : null,
+          controllerProgress: room.controllerProgress,
+          controllerProgressAtStart: room.remoteMetrics.controllerProgressAtStart,
+          failureReason: room.remoteMetrics.failureReason,
+        }
+      : undefined;
 
   return {
     ok: room.failures.length === 0 && gateResults.every((gate) => gate.ok),
@@ -178,6 +301,7 @@ export function runOfflineSimulation({
     },
     milestones,
     failures: room.failures,
+    remoteMining: remoteMiningResult,
   };
 }
 
@@ -337,6 +461,34 @@ export function formatMarkdownReport(result) {
     lines.push("- None.");
   }
 
+  if (result.remoteMining) {
+    lines.push(``, `### Remote Mining`);
+    const rm = result.remoteMining;
+    lines.push(`- Enabled: ${rm.enabled}`);
+    lines.push(`- Active: ${rm.active}`);
+    if (rm.active) {
+      const sel = rm.selected;
+      lines.push(
+        `- Selected remote: distance ${sel?.distance}, source ${sel?.sourceId}, room ${sel?.roomName}`,
+      );
+      lines.push(`- Workers assigned: ${rm.workersAssigned}`);
+      lines.push(
+        `- Home energy min: ${typeof rm.homeEnergyMin === "number" ? rm.homeEnergyMin.toFixed(1) : "N/A"}`,
+      );
+      lines.push(
+        `- Home energy max: ${typeof rm.homeEnergyMax === "number" ? rm.homeEnergyMax.toFixed(1) : "N/A"}`,
+      );
+      lines.push(
+        `- Home energy avg: ${typeof rm.homeEnergyAvg === "number" ? rm.homeEnergyAvg.toFixed(1) : "N/A"}`,
+      );
+      lines.push(
+        `- Controller progress: ${rm.controllerProgress} (at start: ${rm.controllerProgressAtStart})`,
+      );
+    } else {
+      lines.push(`- Not started: ${rm.failureReason}`);
+    }
+  }
+
   return lines.join("\n");
 }
 
@@ -376,6 +528,21 @@ function formatSummary(result) {
     lines.push("failures:");
     for (const failure of result.failures) {
       lines.push(`- tick ${failure.tick}: ${failure.reason}`);
+    }
+  }
+
+  if (result.remoteMining) {
+    lines.push("remote mining:");
+    const rm = result.remoteMining;
+    lines.push(`- enabled: ${rm.enabled}`);
+    lines.push(`- active: ${rm.active}`);
+    if (rm.active) {
+      lines.push(`- workers: ${rm.workersAssigned}`);
+      lines.push(`- home energy min: ${rm.homeEnergyMin}`);
+      lines.push(`- home energy max: ${rm.homeEnergyMax}`);
+      lines.push(`- home energy avg: ${rm.homeEnergyAvg}`);
+    } else {
+      lines.push(`- reason: ${rm.failureReason}`);
     }
   }
 

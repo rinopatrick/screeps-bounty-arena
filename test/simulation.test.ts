@@ -117,4 +117,68 @@ describe("offline simulation", () => {
     ]);
     expect(result.cases.every((entry) => entry.ok)).toBe(true);
   });
+
+  it('enables remote mining when safe and protects home energy', () => {
+    const output = execFileSync(
+      'node',
+      ['scripts/simulate.mjs', '--ticks', '2000', '--spawn-config', 'aggressive', '--remote-mining', '--remote-min-harvesters', '1', '--remote-target', '1', '--remote-min-energy', '0', '--json'],
+      { encoding: 'utf8' },
+    );
+    const result = JSON.parse(output) as {
+      ok: boolean;
+      ticks: number;
+      remoteMining: {
+        enabled: boolean;
+        active: boolean;
+        workersAssigned: number;
+        homeEnergyMin: number;
+        homeEnergyMax: number;
+        homeEnergyAvg: number | null;
+        selected: { distance: number } | null;
+        failureReason: string | null;
+      } | undefined;
+      final: { rcl: number };
+    };
+
+    expect(result.ok).toBe(true);
+    expect(result.remoteMining).toBeDefined();
+    expect(result.remoteMining!.enabled).toBe(true);
+    expect(result.remoteMining!.active).toBe(true);
+    expect(result.remoteMining!.workersAssigned).toBeGreaterThan(0);
+    expect(result.remoteMining!.homeEnergyMin).toBeGreaterThanOrEqual(0);
+    expect(result.remoteMining!.selected).not.toBeNull();
+    expect(result.remoteMining!.selected!.distance).toBe(5);
+    // Colony should still reach at least RCL 2
+    expect(result.final.rcl).toBeGreaterThanOrEqual(2);
+  });
+
+  it('does not activate remote mining when home harvesters threshold is too high', () => {
+    const output = execFileSync(
+      'node',
+      [
+        'scripts/simulate.mjs',
+        '--ticks',
+        '1000',
+        '--remote-mining',
+        '--remote-min-harvesters',
+        '100',
+        '--json',
+      ],
+      { encoding: 'utf8' },
+    );
+    const result = JSON.parse(output) as {
+      ok: boolean;
+      remoteMining: {
+        enabled: boolean;
+        active: boolean;
+        failureReason: string | null;
+      } | undefined;
+    };
+
+    expect(result.ok).toBe(true); // Overall simulation should still succeed
+    expect(result.remoteMining).toBeDefined();
+    expect(result.remoteMining!.enabled).toBe(true);
+    expect(result.remoteMining!.active).toBe(false);
+    expect(result.remoteMining!.failureReason).toContain('insufficient home harvesters');
+  });
 });
