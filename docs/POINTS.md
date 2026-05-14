@@ -72,6 +72,7 @@ If multiple PRs solve the same issue, the maintainer may award credit to one sel
 | 2026-05-14 | 13 | AdrianIp0204 | #67 | #87, commit `3b05066` | Spawn planner impossible-spawn regression guards | Bug/regression fix with busy/low-energy/no-source/retry tests; check/test/1k/10k/seeded sim passed. |
 | 2026-05-14 | 3 | nicovaleops | #74 | #90, commit `52e5c99` | Named simulation fixtures for bad starts/recovery | Added fixture listing/runs with docs and regression tests; check/test/1k/10k/seeded sim passed. |
 | 2026-05-14 | 3 | akamabu | #68 | #91, commit `a912392` | Role edge-case tests for missing targets | Added harvester/builder/upgrader missing-target tests; check/test/1k/10k/seeded sim passed. |
+| 2026-05-14 | 8 | rinopatrick | #79 | #96, commit `0014bcc` | Validate simulator spawn config | PR had conflict after fixture merge; maintainer landed cleaned regression fix; check/test/1k/10k/seeded sim passed. |
 
 ## Maintainer notes
 

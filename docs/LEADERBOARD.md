@@ -14,12 +14,12 @@ Detailed ledger: [POINTS.md](POINTS.md)
 | 🥈 | [nicovaleops](https://github.com/nicovaleops) | 17 | 7 |
 | 🥉 | [kingzzoov-ctrl](https://github.com/kingzzoov-ctrl) | 17 | 5 |
 | 4. | [AdrianIp0204](https://github.com/AdrianIp0204) | 13 | 1 |
-| 5. | [johnsmith507](https://github.com/johnsmith507) | 6 | 2 |
-| 6. | [akamabu](https://github.com/akamabu) | 3 | 1 |
-| 7. | [messiawrq-spec](https://github.com/messiawrq-spec) | 3 | 1 |
-| 8. | [Ric-TengYi](https://github.com/Ric-TengYi) | 3 | 1 |
-| 9. | [SimplyRayYZL](https://github.com/SimplyRayYZL) | 3 | 1 |
-| 10. | [vulam1808](https://github.com/vulam1808) | 3 | 1 |
+| 5. | [rinopatrick](https://github.com/rinopatrick) | 8 | 1 |
+| 6. | [johnsmith507](https://github.com/johnsmith507) | 6 | 2 |
+| 7. | [akamabu](https://github.com/akamabu) | 3 | 1 |
+| 8. | [messiawrq-spec](https://github.com/messiawrq-spec) | 3 | 1 |
+| 9. | [Ric-TengYi](https://github.com/Ric-TengYi) | 3 | 1 |
+| 10. | [SimplyRayYZL](https://github.com/SimplyRayYZL) | 3 | 1 |
 
 ## Merged work ledger
 
@@ -49,6 +49,7 @@ Detailed ledger: [POINTS.md](POINTS.md)
 | 13 | [AdrianIp0204](https://github.com/AdrianIp0204) | [#87](https://github.com/waxeye7/screeps-bounty-arena/pull/87), commit `3b05066` | Spawn planner impossible-spawn regression guards | Bug/regression fix with busy/low-energy/no-source/retry tests; check/test/1k/10k/seeded sim passed. |
 | 3 | [nicovaleops](https://github.com/nicovaleops) | [#90](https://github.com/waxeye7/screeps-bounty-arena/pull/90), commit `52e5c99` | Named simulation fixtures for bad starts/recovery | Added fixture listing/runs with docs and regression tests; check/test/1k/10k/seeded sim passed. |
 | 3 | [akamabu](https://github.com/akamabu) | [#91](https://github.com/waxeye7/screeps-bounty-arena/pull/91), commit `a912392` | Role edge-case tests for missing targets | Added harvester/builder/upgrader missing-target tests; check/test/1k/10k/seeded sim passed. |
+| 8 | [rinopatrick](https://github.com/rinopatrick) | [#96](https://github.com/waxeye7/screeps-bounty-arena/pull/96), commit `0014bcc` | Validate simulator spawn config | PR had conflict after fixture merge; maintainer landed cleaned regression fix; check/test/1k/10k/seeded sim passed. |
 
 ## Rules
 

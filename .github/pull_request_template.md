@@ -11,6 +11,7 @@ Closes #
 - [ ] Code changes are visible in the GitHub PR diff; no external archives/downloads are required.
 - [ ] Proof is pasted below or attached in GitHub. External links are not primary evidence.
 - [ ] No secrets, tokens, local config, generated game state, binaries, or media artifacts are committed.
+- [ ] If this touches private-server URLs/tokens/upload/proof logs, URL userinfo and tokens are redacted in stdout, files, generated bundles, and errors.
 
 ## Verification
 
@@ -60,6 +61,17 @@ Bug-hunt point guide:
 For RCL milestone claims, a 10–60 second sped-up GitHub-attached clip is useful supporting evidence. Show the start state, the RCL milestone, and enough seed/config detail for reviewers to reproduce it.
 
 Offline simulation is useful smoke evidence, but it is not a real Screeps server. Label it honestly.
+
+## Private-server / token safety
+
+Fill this out if the PR touches `SCREEPS_SERVER_URL`, `SCREEPS_TOKEN`, local-server proof, upload, deploy, Docker logs, or private-server status.
+
+- URL userinfo stripped before fetch/log/output: yes/no/not applicable
+- `SCREEPS_TOKEN` redacted from stdout/files/errors: yes/no/not applicable
+- URL username/password redacted from stdout/files/errors: yes/no/not applicable
+- Proof level is honest: dry-run/config-only / offline-smoke / live private-server
+- Redaction regression tests added/updated:
+- No broad bearer token sent to arbitrary URLs unless required: yes/no/not applicable
 
 ## Edge cases covered
 

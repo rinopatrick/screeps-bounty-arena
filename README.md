@@ -98,12 +98,12 @@ Top merged contributors earn the biggest **good-vibes payout**: visibility, brag
 | 🥈 | [nicovaleops](https://github.com/nicovaleops) | 17 | 7 |
 | 🥉 | [kingzzoov-ctrl](https://github.com/kingzzoov-ctrl) | 17 | 5 |
 | 4. | [AdrianIp0204](https://github.com/AdrianIp0204) | 13 | 1 |
-| 5. | [johnsmith507](https://github.com/johnsmith507) | 6 | 2 |
-| 6. | [akamabu](https://github.com/akamabu) | 3 | 1 |
-| 7. | [messiawrq-spec](https://github.com/messiawrq-spec) | 3 | 1 |
-| 8. | [Ric-TengYi](https://github.com/Ric-TengYi) | 3 | 1 |
-| 9. | [SimplyRayYZL](https://github.com/SimplyRayYZL) | 3 | 1 |
-| 10. | [vulam1808](https://github.com/vulam1808) | 3 | 1 |
+| 5. | [rinopatrick](https://github.com/rinopatrick) | 8 | 1 |
+| 6. | [johnsmith507](https://github.com/johnsmith507) | 6 | 2 |
+| 7. | [akamabu](https://github.com/akamabu) | 3 | 1 |
+| 8. | [messiawrq-spec](https://github.com/messiawrq-spec) | 3 | 1 |
+| 9. | [Ric-TengYi](https://github.com/Ric-TengYi) | 3 | 1 |
+| 10. | [SimplyRayYZL](https://github.com/SimplyRayYZL) | 3 | 1 |
 
 Full board: [docs/LEADERBOARD.md](docs/LEADERBOARD.md)
 <!-- LEADERBOARD:END -->

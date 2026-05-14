@@ -511,3 +511,21 @@ Actions:
 
 - merged #91 (`a912392`)
 - awarded 3 points to `akamabu`
+
+## 2026-05-14 — Simulator spawn-config validation PR #96
+
+Decision: close #96 after landing a cleaned implementation on current `main`.
+
+Why:
+
+- PR identified a real simulator trust bug: invalid `--spawn-config` silently fell back to `balanced`
+- original PR conflicted after named fixture support landed
+- maintainer applied the fix at the normalized seed/config layer so CLI/default/fixture paths share validation
+- added regression test for invalid spawn config exiting non-zero
+- passed check/test/1k/10k/seeded gates before push
+
+Actions:
+
+- landed `0014bcc`
+- closed #96 with credit note
+- awarded 8 points to `rinopatrick` for #79
