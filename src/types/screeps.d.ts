@@ -63,7 +63,9 @@ declare global {
   }
 
   interface Source extends RoomObject {}
-  interface StructureController extends RoomObject {}
+  interface StructureController extends RoomObject {
+    level?: number;
+  }
 
   interface Resource<TResource extends ResourceConstant = ResourceConstant> extends RoomObject {
     amount: number;
@@ -107,6 +109,7 @@ declare global {
   }
 
   interface Room {
+    name?: string;
     controller?: StructureController;
     energyAvailable?: number;
     energyCapacityAvailable?: number;
