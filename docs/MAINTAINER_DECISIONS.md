@@ -410,3 +410,23 @@ Actions:
 - added tests for proof-block generation and token redaction
 - updated README, deployment plan, and PR template
 - updated #62 and created follow-up issues #81–#83
+
+## 2026-05-14 — Clickable leaderboard and seeded PR simulation
+
+Decision: make the README/leaderboard easier to navigate and add a reproducible seeded simulation suite to PR CI.
+
+Why:
+
+- contributors should be clickable from the README scoreboard
+- fixed simulation gates are useful, but repeated identical seeds can miss behavior regressions
+- PRs should get a different deterministic smoke-suite per pushed commit while still printing the seed needed to reproduce failures
+
+Actions:
+
+- updated `scripts/update-leaderboard.mjs` to link contributor names to GitHub profiles
+- regenerated README and `docs/LEADERBOARD.md` with clickable contributors and PR links
+- added `scripts/simulate-seeded.mjs`
+- added `npm run simulate:seeded` and `npm run simulate:seeded:markdown`
+- added a seeded simulation CI step using the PR head SHA or push SHA as `CI_SEED_BASE`
+- documented seeded simulation reproduction in `docs/SIMULATION.md` and `docs/TESTING_STRATEGY.md`
+- added tests for seeded simulation output and leaderboard link generation

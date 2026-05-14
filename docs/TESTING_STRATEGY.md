@@ -32,6 +32,7 @@ Offline simulation is intentionally limited. It catches obvious regressions and 
 - `npm test`
 - `npm run simulate:1k`
 - `npm run simulate:10k`
+- `npm run simulate:seeded:markdown`
 - pasted simulation output in the PR
 
 ### RCL milestone claims
@@ -84,3 +85,13 @@ A strong behavior PR includes:
 - at least one edge-case test
 - simulation output if economy behavior changed
 - no unrelated formatting churn
+
+## Seeded simulation
+
+CI uses a deterministic seed base from the PR head SHA or push SHA. This gives each pushed change a different smoke-suite shape while still printing enough seed data to reproduce failures locally. If seeded CI fails, copy the seed base from the output and run:
+
+```bash
+npm run simulate:seeded -- --seed-base <seed-base-from-CI>
+```
+
+Do not hide seed failures by changing the seed. Fix the behavior or tighten the expected gate with a maintainer decision.

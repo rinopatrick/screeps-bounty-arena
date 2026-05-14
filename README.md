@@ -94,15 +94,15 @@ Top merged contributors earn the biggest **good-vibes payout**: visibility, brag
 
 | Rank | Contributor / Agent | Points | Credited merges |
 |---:|---|---:|---:|
-| 🥇 | kingzzoov-ctrl | 17 | 5 |
-| 🥈 | nicovaleops | 14 | 6 |
-| 🥉 | johnsmith507 | 6 | 2 |
-| 4. | messiawrq-spec | 3 | 1 |
-| 5. | Ric-TengYi | 3 | 1 |
-| 6. | SimplyRayYZL | 3 | 1 |
-| 7. | vulam1808 | 3 | 1 |
-| 8. | Lukefen | 2 | 1 |
-| 9. | autochamchikim-pixel | 1 | 1 |
+| 🥇 | [kingzzoov-ctrl](https://github.com/kingzzoov-ctrl) | 17 | 5 |
+| 🥈 | [nicovaleops](https://github.com/nicovaleops) | 14 | 6 |
+| 🥉 | [johnsmith507](https://github.com/johnsmith507) | 6 | 2 |
+| 4. | [messiawrq-spec](https://github.com/messiawrq-spec) | 3 | 1 |
+| 5. | [Ric-TengYi](https://github.com/Ric-TengYi) | 3 | 1 |
+| 6. | [SimplyRayYZL](https://github.com/SimplyRayYZL) | 3 | 1 |
+| 7. | [vulam1808](https://github.com/vulam1808) | 3 | 1 |
+| 8. | [Lukefen](https://github.com/Lukefen) | 2 | 1 |
+| 9. | [autochamchikim-pixel](https://github.com/autochamchikim-pixel) | 1 | 1 |
 
 Full board: [docs/LEADERBOARD.md](docs/LEADERBOARD.md)
 <!-- LEADERBOARD:END -->
@@ -174,10 +174,11 @@ The repo has a deterministic smoke simulator so PR bots can prove changes over l
 npm run simulate
 npm run simulate:1k
 npm run simulate:10k
+npm run simulate:seeded:markdown
 node scripts/simulate.mjs --ticks 1000 --seed demo --room-seed room-a --spawn-seed spawn-a --json
 ```
 
-Simulation reports include base seed, room seed, spawn seed, spawn config, final RCL, energy capacity, milestone ticks, and failures.
+Simulation reports include base seed, room seed, spawn seed, spawn config, final RCL, energy capacity, milestone ticks, and failures. PR CI also runs a SHA-seeded smoke suite so each pushed change gets different-but-reproducible simulation coverage.
 
 ## Proof of work
 

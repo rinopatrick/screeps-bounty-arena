@@ -5,6 +5,7 @@ import { readFileSync, writeFileSync } from 'node:fs';
 const pointsPath = 'docs/POINTS.md';
 const leaderboardPath = 'docs/LEADERBOARD.md';
 const readmePath = 'README.md';
+const repoUrl = 'https://github.com/waxeye7/screeps-bounty-arena';
 
 const points = readFileSync(pointsPath, 'utf8');
 const rows = points
@@ -42,11 +43,28 @@ function rankEmoji(index) {
   return ['🥇', '🥈', '🥉'][index] ?? `${index + 1}.`;
 }
 
+function linkContributorList(value) {
+  return value
+    .split(/\s+\/\s+/)
+    .map((name) => linkContributor(name.trim()))
+    .join(' / ');
+}
+
+function linkContributor(name) {
+  if (!name || name.includes('`') || name.includes('commit ')) return name;
+  if (!/^[A-Za-z0-9-]+$/.test(name)) return name;
+  return `[${name}](https://github.com/${name})`;
+}
+
+function linkRefs(value) {
+  return value.replace(/#(\d+)/g, `[#$1](${repoUrl}/pull/$1)`);
+}
+
 const topRows = ranked.slice(0, 10).map((entry, index) =>
-  `| ${rankEmoji(index)} | ${entry.name} | ${entry.points} | ${entry.merged} |`,
+  `| ${rankEmoji(index)} | ${linkContributor(entry.name)} | ${entry.points} | ${entry.merged} |`,
 ).join('\n');
 
-const leaderboard = `# Leaderboard\n\nManual showcase board for merged challenge PRs.\n\nChallenge points are not money. They are scope/recognition points for merged, verified work. The top contributors earn the biggest **good-vibes payout**: repo visibility, bragging rights, showcase placement, and maintainer appreciation.\n\nDetailed ledger: [POINTS.md](POINTS.md)\n\n## Top contributors\n\n| Rank | Contributor / Agent | Points | Credited merges |\n|---:|---|---:|---:|\n${topRows}\n\n## Merged work ledger\n\n| Points | Contributor / Agent | PR / Commit | Challenge | Proof / Notes |\n|---:|---|---|---|---|\n${entries.map((row) => `| ${row.points} | ${row.contributors} | ${row.pr} | ${row.work} | ${row.notes} |`).join('\n')}\n\n## Rules\n\n- Do not add fake contributors.\n- Do not add unmerged PRs as completed work.\n- Do not claim cash prizes.\n- First good PR wins.\n- Bug reports earn points only when they are reproducible and useful.\n- Bug fixes earn bigger points when they include regression tests.\n- Prefer proof that is stable and reproducible.\n- Record detailed reasoning in \`docs/MAINTAINER_DECISIONS.md\`.\n`;
+const leaderboard = `# Leaderboard\n\nManual showcase board for merged challenge PRs.\n\nChallenge points are not money. They are scope/recognition points for merged, verified work. The top contributors earn the biggest **good-vibes payout**: repo visibility, bragging rights, showcase placement, and maintainer appreciation.\n\nDetailed ledger: [POINTS.md](POINTS.md)\n\n## Top contributors\n\n| Rank | Contributor / Agent | Points | Credited merges |\n|---:|---|---:|---:|\n${topRows}\n\n## Merged work ledger\n\n| Points | Contributor / Agent | PR / Commit | Challenge | Proof / Notes |\n|---:|---|---|---|---|\n${entries.map((row) => `| ${row.points} | ${linkContributorList(row.contributors)} | ${linkRefs(row.pr)} | ${row.work} | ${row.notes} |`).join('\n')}\n\n## Rules\n\n- Do not add fake contributors.\n- Do not add unmerged PRs as completed work.\n- Do not claim cash prizes.\n- First good PR wins.\n- Bug reports earn points only when they are reproducible and useful.\n- Bug fixes earn bigger points when they include regression tests.\n- Prefer proof that is stable and reproducible.\n- Record detailed reasoning in \`docs/MAINTAINER_DECISIONS.md\`.\n`;
 
 writeFileSync(leaderboardPath, leaderboard);
 

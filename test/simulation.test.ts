@@ -75,4 +75,38 @@ describe("offline simulation", () => {
     expect(output).toContain("### Gates");
     expect(output).toContain("### Milestones");
   });
+
+  it("runs a reproducible seeded simulation suite", () => {
+    const output = execFileSync(
+      "node",
+      [
+        "scripts/simulate-seeded.mjs",
+        "--runs",
+        "2",
+        "--ticks",
+        "1000",
+        "--require-rcl",
+        "2",
+        "--require-rcl-by",
+        "1000",
+        "--seed-base",
+        "unit-seed",
+        "--json",
+      ],
+      { encoding: "utf8" },
+    );
+    const result = JSON.parse(output) as {
+      ok: boolean;
+      seedBase: string;
+      cases: Array<{ seed: string; ok: boolean; spawnConfig: string }>;
+    };
+
+    expect(result.ok).toBe(true);
+    expect(result.seedBase).toBe("unit-seed");
+    expect(result.cases.map((entry) => entry.seed)).toEqual([
+      "unit-seed:run-1:conservative",
+      "unit-seed:run-2:balanced",
+    ]);
+    expect(result.cases.every((entry) => entry.ok)).toBe(true);
+  });
 });

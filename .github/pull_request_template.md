@@ -18,6 +18,7 @@ Closes #
 - [ ] `npm test`
 - [ ] `npm run simulate:1k` when gameplay/economy behavior changed
 - [ ] `npm run simulate:10k` when RCL/economy milestones changed
+- [ ] `npm run simulate:seeded:markdown` when gameplay/economy behavior changed
 - [ ] Private/test-server log when claiming real Screeps server behavior
 
 Paste output or summarize exact passing commands:
@@ -47,7 +48,7 @@ Bug-hunt point guide:
 ## Proof of work
 
 - Proof level: unit / offline-smoke / private-server / replay-log / GitHub-attached clip
-- Simulation report:
+- Simulation report, including seed(s):
 - Replay/private-server log:
 - Target RCL / tick count:
 - Simulation/private-server base seed:

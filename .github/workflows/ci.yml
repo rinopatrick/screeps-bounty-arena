@@ -34,3 +34,8 @@ jobs:
 
       - name: 10k simulation smoke
         run: npm run simulate:10k
+
+      - name: Seeded simulation smoke
+        env:
+          CI_SEED_BASE: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: npm run simulate:seeded:markdown

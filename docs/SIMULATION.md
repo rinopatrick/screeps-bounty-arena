@@ -12,6 +12,8 @@ npm run simulate:1k
 npm run simulate:10k
 npm run simulate:gate:rcl2
 npm run simulate:gate:rcl3
+npm run simulate:seeded
+npm run simulate:seeded:markdown
 ```
 
 For machine-readable JSON in scripts, call the simulator directly or run npm with `--silent` so npm does not prepend lifecycle output:
@@ -34,6 +36,23 @@ node scripts/simulate.mjs --ticks 1000 --require-rcl 2 --require-rcl-by 1000 --j
 Use `--room-seed` for room/harvest randomness and `--spawn-seed` plus `--spawn-config` (`conservative`, `balanced`, or `aggressive`) for reproducible spawn-cost choices. JSON output includes all of these fields under `seeds` so a reviewer can replay the same setup.
 
 Use `--require-rcl` and `--require-rcl-by` to turn simulation claims into pass/fail gates. Failed gates exit non-zero, which lets CI catch regressions.
+
+## Seeded CI smoke
+
+The fixed `simulate:1k` and `simulate:10k` gates are stable baseline checks. CI also runs a seeded smoke suite:
+
+```bash
+npm run simulate:seeded:markdown
+```
+
+On GitHub Actions, the seed base is the PR head SHA or push SHA, so each pushed change gets a different deterministic mini-suite. The output prints the seed base and each exact run seed, making failures reproducible locally:
+
+```bash
+npm run simulate:seeded -- --seed-base <paste-seed-base-from-CI>
+node scripts/simulate-seeded.mjs --seed-base <paste-seed-base-from-CI> --json
+```
+
+By default this runs three 3k-tick simulations across conservative, balanced, and aggressive spawn configs and requires RCL 3 by tick 3000.
 
 For PR comments, generate a paste-ready markdown report:
 
@@ -76,6 +95,7 @@ The npm scripts now include conservative pass/fail gates:
 
 - `npm run simulate:1k` requires RCL 2 by tick 1000.
 - `npm run simulate:10k` requires RCL 4 by tick 10000.
+- `npm run simulate:seeded:markdown` runs three SHA-seeded 3k simulations across different spawn configs and requires RCL 3 by tick 3000.
 
 The model often reaches higher RCLs, but the gates are intentionally conservative so they catch major regressions without pretending to be real Screeps validation.
 
