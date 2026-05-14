@@ -13,13 +13,18 @@ describe("offline simulation", () => {
     const result = JSON.parse(output) as {
       ok: boolean;
       ticks: number;
+      trustLevel: string;
+      caveat: string;
       seeds: { roomSeed: string; spawnSeed: string; spawnConfig: string };
+      gates: Array<{ name: string; ok: boolean }>;
       final: { rcl: number; creeps: number; energyCapacity: number };
       milestones: Array<{ tick: number; rcl: number }>;
     };
 
     expect(result.ok).toBe(true);
     expect(result.ticks).toBe(1000);
+    expect(result.trustLevel).toBe('smoke');
+    expect(result.caveat).toContain('not a full Screeps engine');
     expect(result.seeds).toEqual({
       baseSeed: "test",
       roomSeed: "test:room",
@@ -30,6 +35,15 @@ describe("offline simulation", () => {
     expect(result.final.creeps).toBeGreaterThan(1);
     expect(result.final.energyCapacity).toBeGreaterThanOrEqual(300);
     expect(result.milestones.length).toBeGreaterThan(0);
+    expect(result.gates).toContainEqual({ name: 'max-failures', ok: true, expected: 0, actual: 0 });
+  });
+
+  it('fails with a non-zero exit code when an explicit RCL gate is missed', () => {
+    expect(() =>
+      execFileSync('node', ['scripts/simulate.mjs', '--ticks', '100', '--require-rcl', '8', '--json'], {
+        encoding: 'utf8',
+      }),
+    ).toThrow();
   });
 
   it("prints a paste-ready markdown report", () => {
@@ -52,10 +66,13 @@ describe("offline simulation", () => {
     expect(output).toContain("| Room seed |");
     expect(output).toContain("| Spawn seed |");
     expect(output).toContain("| Spawn config |");
+    expect(output).toContain("Trust level: **smoke**");
+    expect(output).toContain("| Model |");
     expect(output).toContain("| Final RCL |");
     expect(output).toContain("| Energy capacity |");
     expect(output).toContain("| Creep count |");
     expect(output).toContain("| Failures |");
+    expect(output).toContain("### Gates");
     expect(output).toContain("### Milestones");
   });
 });

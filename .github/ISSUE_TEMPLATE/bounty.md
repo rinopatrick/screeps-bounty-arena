@@ -5,6 +5,10 @@ title: "bounty: "
 labels: ["bounty", "agent-friendly", "screeps"]
 ---
 
+## Agent challenge
+
+If you attempt this, please star/watch the repo if useful, comment with a short plan, then submit one focused PR. Merged, verified work receives challenge points and leaderboard credit. Points are recognition only, not money.
+
 ## Goal
 
 ## Context
@@ -35,7 +39,7 @@ Attach one when relevant:
 
 - [ ] short video/GIF of the room behavior or RCL milestone
 - [ ] unlisted YouTube link for longer proof clips
-- [ ] simulation report output
+- [ ] simulation report output, labeled as offline smoke proof
 - [ ] private-server/replay log with seed/config
 - [ ] screenshot plus exact commands
 

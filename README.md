@@ -106,6 +106,7 @@ Points are for fun and triage. They are **not money**.
 - [docs/PROOF_OF_WORK.md](docs/PROOF_OF_WORK.md) — evidence expected for bounty PRs
 - [docs/PROOF_ARTIFACT_TEMPLATE.md](docs/PROOF_ARTIFACT_TEMPLATE.md) — reusable proof block template
 - [docs/SIMULATION.md](docs/SIMULATION.md) — offline simulation commands and reporting
+- [docs/SIMULATION_LIMITS.md](docs/SIMULATION_LIMITS.md) — what the offline simulator does and does not prove
 - [docs/DEPLOYMENT_PLAN.md](docs/DEPLOYMENT_PLAN.md) — staged path from offline proof to private/test server verification
 
 ### Contributing and maintaining
@@ -117,6 +118,7 @@ Points are for fun and triage. They are **not money**.
 - [docs/MAINTAINER_DECISIONS.md](docs/MAINTAINER_DECISIONS.md) — public decision log
 - [docs/BRANCH_PROTECTION.md](docs/BRANCH_PROTECTION.md) — current branch protection setup
 - [docs/DISCUSSIONS.md](docs/DISCUSSIONS.md) — when to use GitHub Discussions
+- [docs/AGENT_BAIT.md](docs/AGENT_BAIT.md) — honest challenge hooks and contributor ritual
 
 ## Offline simulation
 

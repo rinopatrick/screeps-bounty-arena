@@ -10,6 +10,7 @@ Closes #
 - [ ] `npm test`
 - [ ] `npm run simulate:1k` when gameplay/economy behavior changed
 - [ ] `npm run simulate:10k` when RCL/economy milestones changed
+- [ ] Private/test-server log or video/GIF when claiming real RCL gameplay proof
 - [ ] No secrets, tokens, local config, or generated game state committed
 
 ## Proof of work
@@ -17,6 +18,7 @@ Closes #
 Attach or link evidence when relevant:
 
 - Video/GIF or unlisted YouTube link:
+- Proof level: unit / offline-smoke / private-server / video-replay
 - Simulation report:
 - Replay/private-server log:
 - Target RCL / tick count:
@@ -27,6 +29,8 @@ Attach or link evidence when relevant:
 - Commit SHA tested:
 
 For RCL milestone claims, a 10–60 second sped-up video is preferred. Show the start state, the RCL milestone, and enough seed/config detail for reviewers to reproduce it.
+
+Offline simulation is useful smoke evidence, but it is not a real Screeps server. Label it honestly.
 
 ## Agent notes
 

@@ -17,6 +17,9 @@ function main() {
       "room-seed": { type: "string" },
       "spawn-seed": { type: "string" },
       "spawn-config": { type: "string", default: "balanced" },
+      "require-rcl": { type: "string" },
+      "require-rcl-by": { type: "string" },
+      "max-failures": { type: "string", default: "0" },
     },
   });
 
@@ -25,12 +28,19 @@ function main() {
     throw new Error(`--ticks must be a positive integer, got ${values.ticks}`);
   }
 
+  const gates = parseGateOptions({
+    requireRcl: values["require-rcl"],
+    requireRclBy: values["require-rcl-by"],
+    maxFailures: values["max-failures"],
+  });
+
   const result = runOfflineSimulation({
     ticks,
     seed: values.seed,
     roomSeed: values["room-seed"],
     spawnSeed: values["spawn-seed"],
     spawnConfig: values["spawn-config"],
+    gates,
   });
 
   if (values.json && values.markdown) {
@@ -44,6 +54,10 @@ function main() {
   } else {
     console.log(formatSummary(result));
   }
+
+  if (!result.ok) {
+    process.exitCode = 1;
+  }
 }
 
 export function runOfflineSimulation({
@@ -52,6 +66,7 @@ export function runOfflineSimulation({
   roomSeed,
   spawnSeed,
   spawnConfig = "balanced",
+  gates = {},
 }) {
   const seeds = normalizeSimulationSeeds({
     seed,
@@ -131,11 +146,24 @@ export function runOfflineSimulation({
     }
   }
 
+  const gateResults = evaluateGates({
+    gates,
+    ticks,
+    finalRcl: room.rcl,
+    failures: room.failures,
+    milestones,
+  });
+
   return {
-    ok: room.failures.length === 0,
+    ok: room.failures.length === 0 && gateResults.every((gate) => gate.ok),
     ticks,
     seed,
     seeds,
+    simulationModel: "offline-smoke-v1",
+    trustLevel: "smoke",
+    caveat:
+      "Deterministic approximation only; not a full Screeps engine or private-server proof.",
+    gates: gateResults,
     final: {
       rcl: room.rcl,
       controllerProgress: room.controllerProgress,
@@ -146,6 +174,74 @@ export function runOfflineSimulation({
     milestones,
     failures: room.failures,
   };
+}
+
+function parseGateOptions({ requireRcl, requireRclBy, maxFailures }) {
+  const gates = {};
+
+  if (requireRcl !== undefined) {
+    gates.requireRcl = parsePositiveInteger(requireRcl, "--require-rcl");
+  }
+
+  if (requireRclBy !== undefined) {
+    gates.requireRclBy = parsePositiveInteger(requireRclBy, "--require-rcl-by");
+  }
+
+  gates.maxFailures = parseNonNegativeInteger(maxFailures, "--max-failures");
+
+  if (gates.requireRclBy !== undefined && gates.requireRcl === undefined) {
+    throw new Error("--require-rcl-by requires --require-rcl");
+  }
+
+  return gates;
+}
+
+function parsePositiveInteger(value, label) {
+  const parsed = Number.parseInt(value, 10);
+  if (!Number.isFinite(parsed) || parsed <= 0) {
+    throw new Error(`${label} must be a positive integer, got ${value}`);
+  }
+  return parsed;
+}
+
+function parseNonNegativeInteger(value, label) {
+  const parsed = Number.parseInt(value, 10);
+  if (!Number.isFinite(parsed) || parsed < 0) {
+    throw new Error(`${label} must be a non-negative integer, got ${value}`);
+  }
+  return parsed;
+}
+
+function evaluateGates({ gates, ticks, finalRcl, failures, milestones }) {
+  const results = [];
+  const maxFailures = gates.maxFailures ?? 0;
+
+  results.push({
+    name: "max-failures",
+    ok: failures.length <= maxFailures,
+    expected: maxFailures,
+    actual: failures.length,
+  });
+
+  if (gates.requireRcl !== undefined) {
+    const milestone = milestones.find((entry) => entry.rcl >= gates.requireRcl);
+    const reachedByTick =
+      milestone?.tick ?? (finalRcl >= gates.requireRcl ? ticks : undefined);
+    const byLimit = gates.requireRclBy ?? ticks;
+
+    results.push({
+      name: "required-rcl",
+      ok: reachedByTick !== undefined && reachedByTick <= byLimit,
+      expected: `RCL ${gates.requireRcl} by tick ${byLimit}`,
+      actual:
+        reachedByTick === undefined ? `final RCL ${finalRcl}` : `tick ${reachedByTick}`,
+      targetRcl: gates.requireRcl,
+      byTick: byLimit,
+      reachedTick: reachedByTick,
+    });
+  }
+
+  return results;
 }
 
 function normalizeSimulationSeeds({
@@ -186,6 +282,8 @@ export function formatMarkdownReport(result) {
   const lines = [
     `## Screeps Simulation Report`,
     ``,
+    `> Trust level: **${result.trustLevel ?? "smoke"}**. ${result.caveat ?? "Offline smoke model only."}`,
+    ``,
     `| Metric | Value |`,
     `| --- | --- |`,
     `| Ticks | ${result.ticks} |`,
@@ -193,14 +291,27 @@ export function formatMarkdownReport(result) {
     `| Room seed | \`${result.seeds.roomSeed}\` |`,
     `| Spawn seed | \`${result.seeds.spawnSeed}\` |`,
     `| Spawn config | \`${result.seeds.spawnConfig}\` |`,
+    `| Model | \`${result.simulationModel ?? "offline-smoke-v1"}\` |`,
     `| OK | ${result.ok ? "yes" : "no"} |`,
     `| Final RCL | ${result.final.rcl} |`,
     `| Energy capacity | ${result.final.energyCapacity} |`,
     `| Creep count | ${result.final.creeps} |`,
     `| Failures | ${result.failures.length} |`,
     ``,
-    `### Milestones`,
+    `### Gates`,
   ];
+
+  if (result.gates?.length) {
+    for (const gate of result.gates) {
+      lines.push(
+        `- ${gate.ok ? "PASS" : "FAIL"} ${gate.name}: expected ${gate.expected}, actual ${gate.actual}.`,
+      );
+    }
+  } else {
+    lines.push("- No explicit gates configured.");
+  }
+
+  lines.push(``, `### Milestones`);
 
   if (result.milestones.length) {
     for (const milestone of result.milestones) {
@@ -227,6 +338,8 @@ export function formatMarkdownReport(result) {
 function formatSummary(result) {
   const lines = [
     `Screeps Bounty Arena offline simulation`,
+    `trust level: ${result.trustLevel}`,
+    `caveat: ${result.caveat}`,
     `ticks: ${result.ticks}`,
     `seed: ${result.seed}`,
     `room seed: ${result.seeds.roomSeed}`,
@@ -237,6 +350,15 @@ function formatSummary(result) {
     `creeps: ${result.final.creeps}`,
     `energy capacity: ${result.final.energyCapacity}`,
   ];
+
+  if (result.gates?.length) {
+    lines.push("gates:");
+    for (const gate of result.gates) {
+      lines.push(
+        `- ${gate.ok ? "PASS" : "FAIL"} ${gate.name}: expected ${gate.expected}, actual ${gate.actual}`,
+      );
+    }
+  }
 
   if (result.milestones.length) {
     lines.push("milestones:");
@@ -261,14 +383,21 @@ function hashSeed(seed) {
     h = Math.imul(h ^ seed.charCodeAt(i), 3432918353);
     h = (h << 13) | (h >>> 19);
   }
-  return h >>> 0;
+  return () => {
+    h = Math.imul(h ^ (h >>> 16), 2246822507);
+    h = Math.imul(h ^ (h >>> 13), 3266489909);
+    h ^= h >>> 16;
+    return h >>> 0;
+  };
 }
 
-function mulberry32(seed) {
-  return function next() {
-    let t = (seed += 0x6d2b79f5);
-    t = Math.imul(t ^ (t >>> 15), t | 1);
-    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+function mulberry32(seedFn) {
+  let a = seedFn();
+  return () => {
+    a |= 0;
+    a = (a + 0x6d2b79f5) | 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
     return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
   };
 }
