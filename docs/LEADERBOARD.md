@@ -21,6 +21,10 @@ Detailed ledger: [POINTS.md](POINTS.md)
 | 3 | kingzzoov-ctrl | #54, `616de81` | Source container mining and hauler handoff | Cleaned maintainer integration; check/test/1k sim passed. |
 | 2 | nicovaleops | #44 | Proof artifact template | Template merged; preserved proof policy. |
 | 2 | nicovaleops | #52 | Room memory cleanup and migration helpers | Clean duplicate merged; superseded #48. |
+| 3 | messiawrq-spec | #59 | Emergency spawn recovery | Check/test/1k sim passed. |
+| 3 | Ric-TengYi | #60 | Early road planner and simulation proof | Check/test/1k and 10k sims passed. |
+| 3 | kingzzoov-ctrl | #55, `03a60f8` | RCL 2 extension construction planner | Cleaned maintainer integration; check/test/1k and 10k sims passed. |
+| 2 | Lukefen | #58, `1f842f5` | README challenge overview | Cleaned README integration; check/test passed. |
 | 1 | autochamchikim-pixel | #42 | PR review workflow checklist | Docs-only checklist merged. |
 
 ## Rules

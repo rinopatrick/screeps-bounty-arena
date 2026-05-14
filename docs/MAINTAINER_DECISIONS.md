@@ -233,6 +233,55 @@ node scripts/deploy-test-server.mjs
 node scripts/test-server-status.mjs
 ```
 
+### 2026-05-14 — Landed #58 README overview via cleaned maintainer integration
+
+#58 had useful docs, but conflicted with newer README sections. Landed a cleaned README update that preserves the current private/test-server and maintainer workflow sections while adding clearer challenge format, points/tier explanations, documentation links, and non-cash honesty language.
+
+Verification used:
+
+```bash
+npm run check
+npm test
+```
+
+### 2026-05-14 — Merged #59 emergency spawn recovery
+
+Merged because it was a focused recovery safeguard for rooms with no harvesters and no miners. It blocks other economy spawns while trying to restore a recovery harvester.
+
+Verification used:
+
+```bash
+npm run check
+npm test
+node scripts/simulate.mjs --ticks 1000 --json
+```
+
+### 2026-05-14 — Merged #60 early road planner
+
+Merged because it adds deterministic early road construction planning from spawn to sources/controller, avoids occupied/reserved spots, caps construction sites per pass, and includes tests. The PR branch was behind, so it was merged with maintainer admin after a current-main dry merge passed.
+
+Verification used:
+
+```bash
+npm run check
+npm test
+node scripts/simulate.mjs --ticks 1000 --json
+node scripts/simulate.mjs --ticks 10000 --json
+```
+
+### 2026-05-14 — Landed #55 RCL 2 extension planner via cleaned maintainer integration
+
+#55 passed on its own branch but conflicted with emergency recovery and road planner changes. Landed a cleaned integration with RCL 2 extension planning, loop wiring, typings, and tests.
+
+Verification used:
+
+```bash
+npm run check
+npm test
+node scripts/simulate.mjs --ticks 1000 --json
+node scripts/simulate.mjs --ticks 10000 --json
+```
+
 ## Future decisions to record
 
 Record decisions for:

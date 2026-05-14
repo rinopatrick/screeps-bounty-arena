@@ -48,6 +48,10 @@ If multiple PRs solve the same issue, the maintainer may award credit to one sel
 | 2026-05-14 | 3 | kingzzoov-ctrl | #22 | #50, commit `632f1ae` | Repairer role with road/wall priorities | Landed via cleaned maintainer integration due stale conflicts. |
 | 2026-05-14 | 3 | kingzzoov-ctrl | #51 | #54, commit `616de81` | Source container mining and hauler handoff | Landed via cleaned maintainer integration due stale conflicts. |
 | 2026-05-14 | 5 | kingzzoov-ctrl | #37 | #53, commit `5db54e7` | Private/test-server deploy workflow | Landed safe credential-free manual handoff path. |
+| 2026-05-14 | 2 | Lukefen | #34 | #58, commit `1f842f5` | README challenge overview | Landed via cleaned maintainer README integration due stale conflicts. |
+| 2026-05-14 | 3 | messiawrq-spec | #57 | #59 | Emergency spawn recovery | Merged clean PR after current-main dry merge and simulation verification. |
+| 2026-05-14 | 3 | Ric-TengYi | #56 | #60 | Early road planner and simulation proof | Merged with admin after dry-merge verification because branch was behind. |
+| 2026-05-14 | 3 | kingzzoov-ctrl | #43 | #55, commit `03a60f8` | RCL 2 extension construction planner | Landed via cleaned maintainer integration due stale conflicts. |
 
 ## Maintainer notes
 
