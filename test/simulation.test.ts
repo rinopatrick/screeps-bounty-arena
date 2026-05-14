@@ -46,6 +46,14 @@ describe("offline simulation", () => {
     ).toThrow();
   });
 
+  it('fails with a non-zero exit code when an invalid spawn-config is provided', () => {
+    expect(() =>
+      execFileSync('node', ['scripts/simulate.mjs', '--spawn-config', 'invalid', '--json'], {
+        encoding: 'utf8',
+      }),
+    ).toThrow();
+  });
+
   it("prints a paste-ready markdown report", () => {
     const output = execFileSync(
       "node",

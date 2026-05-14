@@ -68,6 +68,11 @@ export function runOfflineSimulation({
   spawnConfig = "balanced",
   gates = {},
 }) {
+  const validSpawnConfigs = ['conservative', 'balanced', 'aggressive'];
+  if (!validSpawnConfigs.includes(spawnConfig)) {
+    throw new Error(`Invalid spawn-config: ${spawnConfig}. Must be one of ${validSpawnConfigs.join(', ')}`);
+  }
+
   const seeds = normalizeSimulationSeeds({
     seed,
     roomSeed,
